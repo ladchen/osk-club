@@ -61,6 +61,9 @@ section{padding:var(--sp-sec) 0}
 .nav-copy{margin-left:20px;height:34px;padding:0 14px;font-size:13px}
 .nav-cta{margin-left:12px}
 .m-brandcopy{margin-left:auto;margin-right:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--hairline);color:var(--body);border-radius:var(--r-sm);font-size:15px;cursor:pointer;flex-shrink:0}
+/* 推广链接按钮：支付绑定前锁定态 */
+.share-btn.locked{background:var(--elev)!important;color:var(--muted)!important;border-color:var(--hairline)!important;opacity:.6;cursor:not-allowed}
+.share-btn.locked:active{transform:none}
 @media(max-width:900px){.nav-links{display:none}}
 
 /* ---------- 按钮 ---------- */
@@ -395,8 +398,8 @@ footer .disclaimer{border-top:1px solid #eaecef;padding-top:24px;color:#595959;l
 <!-- ==================== 移动端顶栏（仅手机） ==================== -->
 <div class="m-topbar">
   <a class="brand" href="#top"><span class="logo">O</span>OSK 双联动引擎</a>
-  <button class="m-brandcopy" id="btnCopyShareMobileLeft" type="button" title="复制推广链接">📋</button>
-  <button class="btn btn-yellow" id="btnCopyShareMobile" type="button">推广页链接</button>
+  <button class="m-brandcopy share-btn" id="btnCopyShareMobileLeft" type="button" title="复制推广链接">📋</button>
+  <button class="btn btn-yellow share-btn" id="btnCopyShareMobile" type="button">推广页链接</button>
 </div>
 
 <!-- ==================== 移动端底部导航（仅手机） ==================== -->
@@ -421,8 +424,8 @@ footer .disclaimer{border-top:1px solid #eaecef;padding-top:24px;color:#595959;l
       <a href="#model">经济模型</a>
       <a href="#safe">安全体系</a>
     </nav>
-    <button class="btn btn-dark nav-copy" id="btnCopyShareLeft" type="button">📋 复制推广链接</button>
-    <button class="btn btn-yellow nav-cta" id="btnCopyShareDesktop" type="button">推广页链接</button>
+    <button class="btn btn-dark nav-copy share-btn" id="btnCopyShareLeft" type="button">📋 复制推广链接</button>
+    <button class="btn btn-yellow nav-cta share-btn" id="btnCopyShareDesktop" type="button">推广页链接</button>
   </div>
 </div>
 
@@ -1604,6 +1607,9 @@ function doLoginBind(){
 
 function renderMe(){
   var addr=sget('bound')||sget('login');
+  var locked=!addr;
+  var sbs=document.querySelectorAll('.share-btn');
+  for(var i=0;i<sbs.length;i++){ if(locked){ sbs[i].classList.add('locked'); } else { sbs[i].classList.remove('locked'); } }
   if(!addr){ els.loginBox.style.display='block'; els.meBox.style.display='none'; return; }
   els.loginBox.style.display='none';
   els.meBox.style.display='block';
@@ -1620,10 +1626,10 @@ function initRef(){
     els.refBox.style.display='block';
   }
 }
-/* 顶栏「推广页链接」复制 */
+/* 顶栏「推广页链接」复制 —— 仅支付绑定完成后可生成 */
 function copyShare(){
   var addr=sget('bound')||sget('login');
-  if(!addr){ toast('请先登陆绑定你的地址（0.005 BNB）',false); return; }
+  if(!addr){ toast('请先支付 0.005 BNB 完成登陆绑定，才能生成推广链接',false); return; }
   copyText(shareLink(addr)).then(function(){ toast('推广链接已复制，发给朋友即可',true); });
 }
 function bindEvents(){
