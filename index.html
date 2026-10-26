@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>OSK 双联动引擎 · 招商合作计划</title>
+<meta name="description" content="OSK 双联动引擎（BNIX）BSC 主网挖矿生态招商页：三币联动、六大挖法、双节点分红系统、16 合约全弃权安全背书。全球 39 个系统全力打造，集结号响起，势不可挡。">
+<meta property="og:title" content="OSK 双联动引擎 · 招商合作计划">
+<meta property="og:description" content="税收即流动性的双币联动挖矿引擎：六大玩法、双节点分红、合约全弃权。全球 39 个系统全力打造。">
+<meta property="og:type" content="website">
+<style>
+/* ============================================================
+   OSK 双联动引擎招商页 · 设计系统
+   基于 Binance DESIGN.md tokens（deep near-black canvas + yellow voltage）
+   字体：BinanceNova→系统字体栈；数字→等宽 tabular-nums（BinancePlex 替代）
+   ============================================================ */
+:root{
+  --primary:#FCD535; --primary-active:#f0b90b; --primary-disabled:#3a3a1f;
+  --ink:#181a20; --body:#eaecef; --muted:#707a8a; --muted-strong:#929aa5;
+  --hairline:#2b3139; --canvas:#0b0e11; --card:#1e2329; --elev:#2b3139;
+  --on-primary:#181a20; --on-dark:#ffffff;
+  --up:#0ecb81; --down:#f6465d; --turquoise:#2dbdb6; --info:#3b82f6;
+  --r-xs:2px; --r-sm:4px; --r-md:6px; --r-lg:8px; --r-xl:12px; --r-pill:9999px;
+  --sp-xs:8px; --sp-sm:12px; --sp-md:16px; --sp-lg:24px; --sp-xl:32px; --sp-xxl:48px; --sp-sec:80px;
+  --maxw:1280px;
+  --f-body:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --f-num:ui-monospace,"SF Mono","JetBrains Mono","Cascadia Mono",Menlo,Consolas,"PingFang SC",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--canvas);color:var(--body);font-family:var(--f-body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+img,svg{display:block;max-width:100%}
+a{color:var(--primary);text-decoration:none}
+a:hover{color:var(--primary-active)}
+.container{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+section{padding:var(--sp-sec) 0}
+.num{font-family:var(--f-num);font-variant-numeric:tabular-nums}
+.up{color:var(--up)} .down{color:var(--down)}
+
+/* ---------- 通用动画（加载即播，完成后内容保持可见） ---------- */
+@keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+.fade{animation:fadeUp .7s cubic-bezier(.2,.7,.3,1) both}
+.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}.d4{animation-delay:.32s}.d5{animation-delay:.4s}.d6{animation-delay:.48s}
+@keyframes dashflow{to{stroke-dashoffset:-240}}
+@keyframes pulseGlow{0%,100%{opacity:.55}50%{opacity:1}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes growY{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes growW{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes donutIn{from{stroke-dashoffset:var(--dd)}to{stroke-dashoffset:var(--dd-end)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+/* ---------- 顶导航 ---------- */
+.topnav{position:sticky;top:0;z-index:100;background:rgba(11,14,17,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--hairline)}
+.navbar{max-width:var(--maxw);margin:0 auto;height:64px;padding:0 24px;display:flex;align-items:center;gap:28px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;color:var(--on-dark)}
+.brand .logo{width:30px;height:30px;border-radius:8px;background:var(--primary);color:var(--on-primary);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px}
+.nav-links{display:flex;gap:22px;margin-left:auto;font-size:14px;font-weight:500}
+.nav-links a{color:var(--body)}
+.nav-links a:hover{color:var(--primary)}
+.nav-cta{margin-left:20px}
+@media(max-width:900px){.nav-links{display:none}}
+
+/* ---------- 按钮 ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 24px;border-radius:var(--r-md);font-size:14px;font-weight:600;font-family:var(--f-body);cursor:pointer;border:1px solid transparent;transition:.15s;white-space:nowrap}
+.btn-yellow{background:var(--primary);color:var(--on-primary)}
+.btn-yellow:hover{background:var(--primary-active);color:var(--on-primary)}
+.btn-dark{background:var(--card);color:var(--on-dark);border-color:var(--hairline)}
+.btn-dark:hover{border-color:var(--primary);color:var(--primary)}
+.btn-pill{border-radius:var(--r-pill);padding:0 32px;height:48px}
+.btn-green{background:var(--up);color:#fff}.btn-red{background:var(--down);color:#fff}
+
+/* ---------- 章节标题 ---------- */
+.sec-head{margin-bottom:var(--sp-xxl);max-width:860px}
+.sec-tag{display:inline-flex;align-items:center;gap:8px;color:var(--primary);font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px}
+.sec-tag::before{content:"";width:22px;height:2px;background:var(--primary);border-radius:2px}
+.sec-title{font-size:40px;font-weight:700;line-height:1.15;letter-spacing:-.3px;color:var(--on-dark)}
+.sec-sub{color:var(--muted-strong);font-size:16px;margin-top:14px}
+.sec-title .hl{color:var(--primary)}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;padding:96px 0 64px;overflow:hidden}
+.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(252,213,53,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(252,213,53,.045) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,#000 30%,transparent 75%)}
+.hero-inner{position:relative}
+.hero-badge{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--hairline);background:var(--card);border-radius:var(--r-pill);padding:8px 18px;font-size:13px;color:var(--muted-strong);margin-bottom:28px}
+.hero-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--up);animation:blink 2s infinite}
+.hero-badge b{color:var(--up);font-weight:600}
+.hero h1{font-size:64px;font-weight:700;line-height:1.08;letter-spacing:-1px;color:var(--on-dark)}
+.hero h1 .y{color:var(--primary)}
+.hero .sub{font-size:19px;color:var(--muted-strong);max-width:720px;margin:26px 0 36px}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--hairline);border:1px solid var(--hairline);border-radius:var(--r-xl);overflow:hidden;margin-top:64px}
+.hstat{background:var(--card);padding:28px 26px}
+.hstat .v{font-family:var(--f-num);font-size:34px;font-weight:700;color:var(--primary);letter-spacing:-.3px;line-height:1.1}
+.hstat .l{color:var(--muted);font-size:13px;margin-top:10px}
+.hstat .d{font-size:12px;margin-top:4px}
+@media(max-width:900px){.hero h1{font-size:40px}.hero-stats{grid-template-columns:repeat(2,1fr)}}
+
+/* ---------- 滚动数据带 ---------- */
+.ticker{background:var(--card);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline);padding:14px 0;overflow:hidden}
+.ticker-track{display:flex;gap:56px;white-space:nowrap;animation:marquee 46s linear infinite;width:max-content}
+.ticker-track:hover{animation-play-state:paused}
+.tick{display:inline-flex;align-items:baseline;gap:10px;font-size:13px;color:var(--muted)}
+.tick .k{color:var(--muted-strong)}
+.tick .v{font-family:var(--f-num);font-size:14px;font-weight:600;color:var(--body)}
+
+/* ---------- 卡片网格 ---------- */
+.grid{display:grid;gap:var(--sp-lg)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:1024px){.g3,.g4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:680px){.g2,.g3,.g4{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--hairline);border-radius:var(--r-xl);padding:var(--sp-lg);min-width:0}
+.grid>*{min-width:0}
+.tab-panel .panel-grid>*{min-width:0}
+.card .card-tag{color:var(--primary);font-size:12px;font-weight:700;letter-spacing:.12em;margin-bottom:12px}
+.card h3{font-size:20px;font-weight:600;color:var(--on-dark);line-height:1.35;margin-bottom:10px}
+.card p{font-size:14px;color:var(--muted-strong);line-height:1.65}
+.card .big{font-family:var(--f-num);font-size:28px;font-weight:700;color:var(--primary)}
+.card-hl{border-color:rgba(252,213,53,.35)}
+.card-hl .card-tag{color:var(--up)}
+
+/* ---------- 数据表 ---------- */
+.dtable{width:100%;border-collapse:collapse;font-size:14px}
+.dtable th{color:var(--muted);font-weight:500;text-align:left;font-size:12.5px;letter-spacing:.04em;padding:12px 14px;border-bottom:1px solid var(--hairline);white-space:nowrap}
+.dtable td{padding:13px 14px;border-bottom:1px solid var(--hairline);color:var(--body)}
+.dtable tr:last-child td{border-bottom:none}
+.dtable td.num{font-family:var(--f-num)}
+.dtable tr:hover td{background:rgba(252,213,53,.03)}
+.table-wrap{background:var(--card);border:1px solid var(--hairline);border-radius:var(--r-xl);overflow:hidden}
+.table-scroll{overflow-x:auto}
+.pill{display:inline-flex;align-items:center;padding:2px 10px;border-radius:var(--r-pill);font-size:12px;font-weight:600}
+.pill-y{background:rgba(252,213,53,.14);color:var(--primary)}
+.pill-g{background:rgba(14,203,129,.12);color:var(--up)}
+.pill-r{background:rgba(246,70,93,.12);color:var(--down)}
+.pill-b{background:rgba(59,130,246,.12);color:var(--info)}
+
+/* ---------- 玩法 Tabs（纯 CSS radio） ---------- */
+.tabs input{position:absolute;opacity:0;pointer-events:none}
+.tabbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:var(--sp-lg)}
+.tabbar label{cursor:pointer;padding:10px 20px;border-radius:var(--r-md);border:1px solid var(--hairline);background:var(--card);color:var(--muted-strong);font-size:14px;font-weight:600;transition:.15s;user-select:none}
+.tabbar label:hover{color:var(--body);border-color:var(--muted)}
+#t1:checked ~ .tabbar label[for=t1],#t2:checked ~ .tabbar label[for=t2],#t3:checked ~ .tabbar label[for=t3],#t4:checked ~ .tabbar label[for=t4],#t5:checked ~ .tabbar label[for=t5],#t6:checked ~ .tabbar label[for=t6]{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
+.tab-panel{display:none}
+#t1:checked ~ .panels #p1,#t2:checked ~ .panels #p2,#t3:checked ~ .panels #p3,#t4:checked ~ .panels #p4,#t5:checked ~ .panels #p5,#t6:checked ~ .panels #p6{display:block;animation:fadeUp .5s both}
+.tab-panel .panel-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:var(--sp-lg);align-items:start}
+@media(max-width:1024px){.tab-panel .panel-grid{grid-template-columns:1fr}}
+.kv{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--hairline);border:1px solid var(--hairline);border-radius:var(--r-lg);overflow:hidden}
+.kv .cell{background:var(--elev);padding:12px 16px}
+.kv .cell .k{font-size:12px;color:var(--muted)}
+.kv .cell .v{font-family:var(--f-num);font-size:16px;font-weight:600;color:var(--body);margin-top:3px}
+.kv .cell .v.hot{color:var(--primary)}
+.kv .cell.wide{grid-column:span 2}
+@media(max-width:480px){.kv{grid-template-columns:1fr}.kv .cell.wide{grid-column:span 1}}
+@media(max-width:480px){.bar .bv{font-size:10px}}
+
+/* ---------- 步骤流程 ---------- */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--sp-md);counter-reset:step}
+@media(max-width:1024px){.steps{grid-template-columns:1fr}}
+.step{position:relative;background:var(--card);border:1px solid var(--hairline);border-radius:var(--r-lg);padding:22px 18px;counter-increment:step}
+.step::before{content:counter(step,decimal-leading-zero);font-family:var(--f-num);font-size:28px;font-weight:700;color:rgba(252,213,53,.22);display:block;margin-bottom:12px}
+.step h4{font-size:15px;font-weight:600;color:var(--on-dark);margin-bottom:8px}
+.step p{font-size:13px;color:var(--muted-strong);line-height:1.6}
+.step .tag{position:absolute;top:14px;right:14px;font-size:11px;font-weight:700;color:var(--primary)}
+.step-arrow{display:none}
+
+/* ---------- SVG 面板 ---------- */
+.flow-panel{background:var(--card);border:1px solid var(--hairline);border-radius:var(--r-xl);padding:var(--sp-lg);overflow:hidden}
+.flow-panel .fp-title{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.flow-panel .fp-title .ico{width:34px;height:34px;border-radius:var(--r-md);background:rgba(252,213,53,.12);display:flex;align-items:center;justify-content:center;font-size:17px}
+.flow-panel .fp-title h3{font-size:17px;font-weight:600;color:var(--on-dark)}
+.flow-panel .fp-title .desc{font-size:13px;color:var(--muted)}
+.flow-panel svg{width:100%;height:auto}
+.flowline{stroke:var(--muted);stroke-width:1.6;fill:none}
+.flowline.hot{stroke:var(--primary);stroke-width:2}
+.flowline.up{stroke:var(--up)}.flowline.down{stroke:var(--down)}.flowline.info{stroke:var(--info)}
+.dash-anim{stroke-dasharray:7 9;animation:dashflow 6s linear infinite}
+.node-box{fill:var(--elev);stroke:var(--hairline);stroke-width:1}
+.node-title{fill:var(--body);font-size:13px;font-weight:600}
+.node-sub{fill:var(--muted);font-size:10.5px}
+.node-big{fill:var(--primary);font-family:var(--f-num);font-size:15px;font-weight:700}
+.lbl{fill:var(--muted);font-size:11px}
+.lbl.hot{fill:var(--primary)}.lbl.up{fill:var(--up)}.lbl.down{fill:var(--down)}
+
+/* ---------- 条形图（13 档利率） ---------- */
+.bar-chart{display:flex;align-items:flex-end;gap:10px;height:240px;padding:0 8px;overflow-x:auto;overflow-y:hidden}
+.bar-col{flex:1 0 34px;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:flex-end}
+.bar{width:100%;max-width:44px;border-radius:4px 4px 0 0;background:linear-gradient(180deg,var(--primary),rgba(252,213,53,.35));transform-origin:bottom;animation:growY .9s cubic-bezier(.2,.7,.3,1) both;position:relative}
+.bar .bv{position:absolute;top:-24px;left:50%;transform:translateX(-50%);font-family:var(--f-num);font-size:12px;font-weight:700;color:var(--primary);white-space:nowrap}
+.bar-col .bx{font-family:var(--f-num);font-size:10.5px;color:var(--muted);text-align:center;white-space:nowrap}
+.bar-col.cur .bar{background:linear-gradient(180deg,var(--up),rgba(14,203,129,.3))}
+.bar-col.cur .bv{color:var(--up)}
+.bar-col .bx .cur-tag{display:block;color:var(--up);font-weight:700;font-size:10px}
+
+/* ---------- 环形图（OSK 供给） ---------- */
+.donut-wrap{display:flex;gap:32px;align-items:center;flex-wrap:wrap}
+.donut{position:relative;width:250px;height:250px;flex-shrink:0}
+.donut svg{transform:rotate(-90deg)}
+.donut .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.donut .center .v{font-family:var(--f-num);font-size:26px;font-weight:700;color:var(--on-dark)}
+.donut .center .l{font-size:12px;color:var(--muted)}
+.legend{display:grid;gap:10px;flex:1;min-width:260px}
+.legend .li{display:flex;align-items:center;gap:12px;font-size:13.5px}
+.legend .sw{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.legend .li .name{color:var(--muted-strong)}
+.legend .li .val{margin-left:auto;font-family:var(--f-num);font-weight:600;color:var(--body)}
+.legend .li .pct{font-family:var(--f-num);font-size:12px;color:var(--muted);width:52px;text-align:right}
+
+/* ---------- FAQ ---------- */
+details.faq{background:transparent;border-bottom:1px solid var(--hairline);padding:20px 0}
+details.faq summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:14px;font-size:16px;font-weight:600;color:var(--body);user-select:none}
+details.faq summary::-webkit-details-marker{display:none}
+details.faq summary::after{content:"+";margin-left:auto;font-family:var(--f-num);font-size:20px;color:var(--primary);transition:.2s}
+details.faq[open] summary::after{transform:rotate(45deg)}
+details.faq .faq-body{font-size:14px;color:var(--muted-strong);padding:14px 0 4px;line-height:1.75;max-width:900px}
+
+/* ---------- 绑定推荐关系（教程视频 + TP 钱包） ---------- */
+.bind-grid{display:grid;grid-template-columns:340px 1fr;gap:28px;align-items:start}
+.bind-col{min-width:0}
+.bind-video video{width:100%;max-height:600px;background:#000;border-radius:var(--r-lg);border:1px solid var(--hairline)}
+.vid-tip{font-size:12.5px;color:var(--muted);margin-top:10px;text-align:center}
+.ref-box{margin-top:16px;background:var(--elev);border:1px solid var(--hairline);border-radius:var(--r-lg);padding:16px}
+.ref-label{font-size:13px;font-weight:600;color:var(--primary);margin-bottom:10px}
+.ref-hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.6}
+.addr-row{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--hairline);border-radius:var(--r-md);padding:9px 12px}
+.addr-row .mono{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--body);font-size:13px}
+.copy-btn{height:32px;padding:0 14px;font-size:12.5px;flex-shrink:0}
+.wallet-card{background:var(--elev);border:1px solid var(--hairline);border-radius:var(--r-lg);padding:22px}
+.wallet-title{font-size:16px;font-weight:700;color:var(--on-dark);margin-bottom:14px}
+.wallet-note{font-size:13px;color:var(--muted-strong);line-height:1.7;margin-bottom:12px}
+.wallet-note b{color:var(--primary)}
+.bind-ok{display:inline-flex;align-items:center;gap:6px;color:var(--up);font-size:13.5px;font-weight:600}
+.wstatus{font-size:12.5px;margin-top:14px;line-height:1.6;min-height:18px;word-break:break-all}
+.wstatus.ok{color:var(--up)}
+.wstatus.err{color:var(--down)}
+@media(max-width:900px){
+  .bind-grid{grid-template-columns:1fr}
+  .bind-video video{max-width:420px;margin:0 auto;display:block}
+}
+
+/* ---------- CTA 带 ---------- */
+.cta-band{background:var(--card);border:1px solid var(--hairline);border-radius:var(--r-xl);padding:var(--sp-xxl);display:flex;align-items:center;gap:40px;flex-wrap:wrap;position:relative;overflow:hidden}
+.cta-band::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 260px at 12% 0%,rgba(252,213,53,.10),transparent 60%)}
+.cta-band h2{font-size:32px;font-weight:600;line-height:1.2;color:var(--on-dark)}
+.cta-band .cta-sub{color:var(--muted-strong);margin-top:12px;max-width:560px}
+.cta-band .right{margin-left:auto;display:flex;gap:14px;flex-wrap:wrap;position:relative}
+
+/* ---------- 风险条 ---------- */
+.risk-card{border-left:3px solid var(--down);background:var(--card);border-radius:var(--r-lg);padding:20px 24px;margin-bottom:14px}
+.risk-card.warn{border-left-color:#f0b90b}
+.risk-card.info{border-left-color:var(--info)}
+.risk-card h4{font-size:15px;font-weight:600;color:var(--on-dark);margin-bottom:6px}
+.risk-card p{font-size:13.5px;color:var(--muted-strong);line-height:1.65}
+
+/* ---------- Footer ---------- */
+footer{background:#fafafa;color:var(--ink);padding:64px 24px 40px;font-size:13px}
+footer .inner{max-width:var(--maxw);margin:0 auto}
+footer h5{font-size:15px;font-weight:700;margin-bottom:14px;color:var(--ink)}
+footer .cols{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:40px}
+@media(max-width:800px){footer .cols{grid-template-columns:1fr}}
+footer a{color:var(--ink)}
+footer .disclaimer{border-top:1px solid #eaecef;padding-top:24px;color:#595959;line-height:1.8;font-size:12px}
+.mono{font-family:var(--f-num);font-size:12.5px;word-break:break-all;color:#595959}
+
+/* ============================================================
+   移动端专属 UI（≤768px）—— 顶部应用栏 + 底部导航 + 触屏布局
+   ============================================================ */
+.m-topbar{display:none}
+.m-bottombar{display:none}
+
+@media(max-width:768px){
+  html{scroll-padding-top:64px}
+  body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
+  .container{padding:0 16px}
+  section{padding:56px 0;border-top:1px solid var(--hairline)}
+  .sec-head{margin-bottom:32px}
+  .sec-title{font-size:26px}
+  .sec-sub{font-size:14.5px;margin-top:10px}
+  .sec-tag{font-size:12px}
+
+  /* 桌面导航隐藏，移动顶栏上场 */
+  .topnav{display:none}
+  .m-topbar{display:flex;position:sticky;top:0;z-index:100;height:52px;align-items:center;justify-content:space-between;padding:0 16px;background:rgba(11,14,17,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--hairline)}
+  .m-topbar .brand{font-size:16px}
+  .m-topbar .brand .logo{width:26px;height:26px;font-size:12px;border-radius:7px}
+  .m-topbar .btn{height:34px;padding:0 16px;font-size:13px;border-radius:var(--r-sm)}
+
+  /* 底部导航（app 式五键） */
+  .m-bottombar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:100;height:62px;background:rgba(20,24,29,.97);backdrop-filter:blur(16px);border-top:1px solid var(--hairline);padding-bottom:env(safe-area-inset-bottom,0px)}
+  .m-bottombar a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--muted);font-size:11px;font-weight:500;text-decoration:none;-webkit-tap-highlight-color:transparent}
+  .m-bottombar a .bi{font-size:19px;line-height:1}
+  .m-bottombar a:active{transform:scale(.94)}
+  @supports (animation-timeline: view()){
+    #play{view-timeline-name:--sv-play}
+    #flow{view-timeline-name:--sv-flow}
+    #model{view-timeline-name:--sv-model}
+    #safe{view-timeline-name:--sv-safe}
+    #join{view-timeline-name:--sv-join}
+    .m-bottombar a[href="#play"]{animation:navOn linear both;animation-timeline:--sv-play;animation-range:entry 0% exit 100%}
+    .m-bottombar a[href="#flow"]{animation:navOn linear both;animation-timeline:--sv-flow;animation-range:entry 0% exit 100%}
+    .m-bottombar a[href="#model"]{animation:navOn linear both;animation-timeline:--sv-model;animation-range:entry 0% exit 100%}
+    .m-bottombar a[href="#safe"]{animation:navOn linear both;animation-timeline:--sv-safe;animation-range:entry 0% exit 100%}
+    .m-bottombar a[href="#join"]{animation:navOn linear both;animation-timeline:--sv-join;animation-range:entry 0% exit 100%}
+    @keyframes navOn{0%,15%{color:var(--muted)}80%,100%{color:var(--primary)}}
+  }
+
+  /* Hero 移动版 */
+  .hero{padding:48px 0 40px}
+  .hero-grid-bg{display:none}
+  .hero h1{font-size:34px;letter-spacing:-.5px}
+  .hero .sub{font-size:15px;margin:18px 0 26px}
+  .hero-badge{font-size:11.5px;padding:7px 14px;margin-bottom:20px;line-height:1.5}
+  .hero-ctas{gap:10px}
+  .hero-ctas .btn{flex:1 1 100%;height:46px;border-radius:var(--r-md);font-size:14px}
+  .hero-stats{margin-top:36px;border-radius:var(--r-lg)}
+  .hstat{padding:18px 14px}
+  .hstat .v{font-size:23px}
+  .hstat .l{font-size:11.5px;margin-top:6px}
+  .hstat .d{font-size:10.5px}
+  .ticker{padding:10px 0}
+  .ticker-track{animation-duration:28s;gap:36px}
+  .tick{font-size:12px}.tick .v{font-size:12.5px}
+
+  /* 卡片与网格 */
+  .g2,.g3,.g4{grid-template-columns:1fr;gap:14px}
+  .card{padding:20px 18px;border-radius:var(--r-lg)}
+  .card h3{font-size:17px}
+  .card p{font-size:13.5px}
+  .card .big{font-size:24px}
+
+  /* 玩法 Tab：横向滚动药丸栏，吸顶 */
+  .tabbar{position:sticky;top:52px;z-index:60;display:flex;flex-wrap:nowrap;overflow-x:auto;gap:8px;margin:0 -16px 18px;padding:10px 16px;background:rgba(11,14,17,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--hairline);-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .tabbar::-webkit-scrollbar{display:none}
+  .tabbar label{flex:0 0 auto;padding:9px 16px;font-size:13px;border-radius:var(--r-pill)}
+  .tab-panel .panel-grid{grid-template-columns:1fr;gap:14px}
+
+  /* 步骤：竖排时间线 */
+  .steps{grid-template-columns:1fr;gap:0}
+  .step{display:flex;gap:14px;padding:18px 4px;border:none;background:transparent;border-radius:0;position:relative}
+  .step::before{content:counter(step,decimal-leading-zero);font-size:20px;min-width:38px;height:38px;border-radius:var(--r-md);background:rgba(252,213,53,.10);color:var(--primary);display:flex;align-items:center;justify-content:center;margin:0}
+  .step::after{content:"";position:absolute;left:19px;top:60px;bottom:-6px;width:1px;background:var(--hairline)}
+  .step:last-child::after{display:none}
+  .step .tag{display:none}
+  .step h4{font-size:15px}
+  .step p{font-size:13px}
+
+  /* 走账 SVG 面板 */
+  .flow-panel{padding:16px 12px;border-radius:var(--r-lg)}
+  .flow-panel .fp-title{margin-bottom:10px}
+  .flow-panel .fp-title h3{font-size:15px}
+  .flow-panel .fp-title .desc{font-size:11.5px;line-height:1.5}
+  .flow-panel .fp-title .ico{width:30px;height:30px;font-size:15px}
+
+  /* 图表 */
+  .donut-wrap{flex-direction:column;gap:18px}
+  .donut{width:196px;height:196px}
+  .donut .center .v{font-size:22px}
+  .legend{width:100%;min-width:0}
+  .bar-chart{height:170px;gap:8px}
+  .bar-col{flex:1 0 30px}
+  .bar{max-width:34px}
+  .bar .bv{font-size:10px;top:-20px}
+
+  /* 表格 */
+  .dtable{font-size:12.5px}
+  .dtable th,.dtable td{padding:10px 10px}
+  .table-wrap{border-radius:var(--r-lg)}
+  .kv{gap:1px}
+  .kv .cell{padding:10px 12px}
+  .kv .cell .v{font-size:14px}
+
+  /* CTA 与 FAQ */
+  .cta-band{padding:32px 22px;gap:24px}
+  .cta-band h2{font-size:22px}
+  .cta-band .right{width:100%}
+  .cta-band .right .btn{flex:1;justify-content:center}
+  .risk-card{padding:16px 18px}
+  details.faq{padding:16px 0}
+  details.faq summary{font-size:14.5px;gap:10px}
+  details.faq .faq-body{font-size:13px}
+
+  /* 页脚 */
+  footer{padding:44px 20px calc(44px + 62px + env(safe-area-inset-bottom,0px))}
+  footer .cols{grid-template-columns:1fr;gap:24px}
+  .m-bottombar a .bl{font-size:10.5px}
+}
+
+</style>
+</head>
+<body>
+
+<!-- ==================== 移动端顶栏（仅手机） ==================== -->
+<div class="m-topbar">
+  <a class="brand" href="#top"><span class="logo">O</span>OSK 双联动引擎</a>
+  <a class="btn btn-yellow" href="#join">节点认购</a>
+</div>
+
+<!-- ==================== 移动端底部导航（仅手机） ==================== -->
+<nav class="m-bottombar" aria-label="移动端导航">
+  <a href="#play"><span class="bi">🌾</span><span class="bl">玩法</span></a>
+  <a href="#flow"><span class="bi">💧</span><span class="bl">走账</span></a>
+  <a href="#model"><span class="bi">📊</span><span class="bl">模型</span></a>
+  <a href="#safe"><span class="bi">🛡️</span><span class="bl">安全</span></a>
+  <a href="#join"><span class="bi">🏛️</span><span class="bl">认购</span></a>
+</nav>
+
+<!-- ==================== 顶导航（桌面） ==================== -->
+<div class="topnav">
+  <div class="navbar">
+    <a class="brand" href="#top"><span class="logo">O</span>OSK 双联动引擎</a>
+    <nav class="nav-links">
+      <a href="#intro">项目介绍</a>
+      <a href="#play">六大玩法</a>
+      <a href="#why">核心优势</a>
+      <a href="#how">参与流程</a>
+      <a href="#flow">资金走账</a>
+      <a href="#model">经济模型</a>
+      <a href="#safe">安全体系</a>
+    </nav>
+    <a class="btn btn-yellow nav-cta" href="#join">招商合作</a>
+  </div>
+</div>
+
+<!-- ==================== HERO ==================== -->
+<header class="hero" id="top">
+  <div class="hero-grid-bg"></div>
+  <div class="container hero-inner">
+    <div class="hero-badge fade"><span class="dot"></span>BSC 主网 · 第⑪代正式版 · <b>16 合约所有权已全部弃权</b> · 源码全链可验证</div>
+    <h1 class="fade d1">一个税收即流动性的<br><span class="y">双币联动</span> 挖矿引擎</h1>
+    <p class="sub fade d2">OSK × FISTDAO 双代币 + 外源 FIST 三币闭环：六大挖矿玩法、九代直推与百层团队网络、双节点分红系统。每一笔税收与入金都被合约写死流入流动性池、销毁池与节点钱包——公开、不可篡改、无 rug 可能。</p>
+    <div class="hero-ctas fade d3">
+      <a class="btn btn-yellow btn-pill" href="#play">了解六大玩法</a>
+      <a class="btn btn-dark btn-pill" href="#flow">看资金走账全景</a>
+      <a class="btn btn-dark btn-pill" href="#safe">安全体系与链上验证</a>
+    </div>
+    <div class="hero-stats fade d4">
+      <div class="hstat">
+        <div class="v">220,000,000</div>
+        <div class="l">OSK 固定供应 · 永不增发</div>
+        <div class="d up">铸造即锁死 · 无 mint 入口</div>
+      </div>
+      <div class="hstat">
+        <div class="v">80,000,000</div>
+        <div class="l">国库 OSK 储备目标（已满额）</div>
+        <div class="d up">占总量 36.4% · 自动补仓机制</div>
+      </div>
+      <div class="hstat">
+        <div class="v">6 大</div>
+        <div class="l">挖矿玩法 · 一套经济闭环</div>
+        <div class="d up">农场 / 双质押 / 空投质押 / 认购 / 分红</div>
+      </div>
+      <div class="hstat">
+        <div class="v">16 份</div>
+        <div class="l">合约全部开源 + 链上验证</div>
+        <div class="d up">Sourcify exact_match 全通过</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ==================== 实时数据带 ==================== -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="tick"><span class="k">OSK/USD</span><span class="v">$0.00676</span></span>
+    <span class="tick"><span class="k">FIST/USD</span><span class="v">$0.2269</span></span>
+    <span class="tick"><span class="k">BNB/USD</span><span class="v">$744.50</span></span>
+    <span class="tick"><span class="k">LP 双侧市值</span><span class="v">$1,561,384</span></span>
+    <span class="tick"><span class="k">国库储备</span><span class="v">79,998,758 OSK</span></span>
+    <span class="tick"><span class="k">节点认购进度</span><span class="v">4,170,000 / 10,140,000</span></span>
+    <span class="tick"><span class="k">认购者</span><span class="v">223 人 · 13/13 根</span></span>
+    <span class="tick"><span class="k">质押池 A</span><span class="v">$7,891</span></span>
+    <span class="tick"><span class="k">质押池 B</span><span class="v">$135,847</span></span>
+    <span class="tick"><span class="k">保险池</span><span class="v">172.6 BNB</span></span>
+    <span class="tick"><span class="k">链</span><span class="v">BSC · ChainID 56</span></span>
+    <span class="tick"><span class="k">OSK/USD</span><span class="v">$0.00676</span></span>
+    <span class="tick"><span class="k">FIST/USD</span><span class="v">$0.2269</span></span>
+    <span class="tick"><span class="k">BNB/USD</span><span class="v">$744.50</span></span>
+    <span class="tick"><span class="k">LP 双侧市值</span><span class="v">$1,561,384</span></span>
+    <span class="tick"><span class="k">国库储备</span><span class="v">79,998,758 OSK</span></span>
+    <span class="tick"><span class="k">节点认购进度</span><span class="v">4,170,000 / 10,140,000</span></span>
+    <span class="tick"><span class="k">认购者</span><span class="v">223 人 · 13/13 根</span></span>
+    <span class="tick"><span class="k">质押池 A</span><span class="v">$7,891</span></span>
+    <span class="tick"><span class="k">质押池 B</span><span class="v">$135,847</span></span>
+    <span class="tick"><span class="k">保险池</span><span class="v">172.6 BNB</span></span>
+    <span class="tick"><span class="k">链</span><span class="v">BSC · ChainID 56</span></span>
+  </div>
+</div>
+
+<!-- ==================== 项目介绍 ==================== -->
+<section id="intro">
+  <div class="container">
+    <div class="sec-head fade">
+      <div class="sec-tag">01 · 项目介绍</div>
+      <h2 class="sec-title">三种代币，一条<span class="hl">联动链路</span></h2>
+      <p class="sec-sub">OSK 双联动引擎（前身 BNIX）于 2026-09-27 部署于 BSC 主网，是历经十代测试迭代后的正式版挖矿生态。生态由三种代币构成：OSK（A 币，本项目发行）、FISTDAO（母币，本项目发行）、FIST（B 币，外源 FstSwap 治理币，200M 固定、无税、所有权已弃权）。「双联动」的含义是：OSK 只有 OSK/FIST 一个交易对，FIST 只有 FIST/USDT 一个对，两者的价格经合约预言机互相锚定——所有挖矿奖励、税收、做市，都在这条「OSK ↔ FIST ↔ USDT」链路上运转。</p>
+    </div>
+    <div class="flow-panel fade d2">
+      <div class="fp-title">
+        <div class="ico">⚙️</div>
+        <div><h3>三币联动架构（动态示意）</h3><div class="desc">三种代币 + 一个金库 + 一个保险池 + 六个分销器 · 全部合约互锁</div></div>
+      </div>
+      <svg viewBox="0 0 940 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="三币联动架构图">
+        <defs>
+          <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#707a8a"/></marker>
+          <marker id="arrHot" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#FCD535"/></marker>
+          <marker id="arrUp" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#0ecb81"/></marker>
+        </defs>
+        <rect x="20" y="60" width="150" height="74" rx="8" class="node-box"/>
+        <text x="95" y="90" text-anchor="middle" class="node-title">用户 / 矿工</text>
+        <text x="95" y="108" text-anchor="middle" class="node-sub">BNB · FIST · OSK 入金</text>
+        <rect x="380" y="150" width="180" height="84" rx="8" class="node-box" style="stroke:rgba(252,213,53,.5)"/>
+        <text x="470" y="180" text-anchor="middle" class="node-title">CoreVault 核心库</text>
+        <text x="470" y="197" text-anchor="middle" class="node-sub">农场 · OSK质押 · FIST质押</text>
+        <text x="470" y="214" text-anchor="middle" class="node-sub">推荐网络 · 3倍出局引擎</text>
+        <rect x="700" y="30" width="200" height="74" rx="8" class="node-box" style="stroke:rgba(252,213,53,.5)"/>
+        <text x="800" y="60" text-anchor="middle" class="node-title">国库 Treasury</text>
+        <text x="800" y="80" text-anchor="middle" class="node-big">80,000,000 OSK</text>
+        <rect x="700" y="150" width="200" height="74" rx="8" class="node-box"/>
+        <text x="800" y="180" text-anchor="middle" class="node-title">保险池 Insurance</text>
+        <text x="800" y="198" text-anchor="middle" class="node-sub">做市 + 赎回储备</text>
+        <rect x="380" y="320" width="180" height="74" rx="8" class="node-box"/>
+        <text x="470" y="350" text-anchor="middle" class="node-title">OSK / FIST 流动性池</text>
+        <text x="470" y="368" text-anchor="middle" class="node-sub">115,267,344 OSK 锁定</text>
+        <rect x="20" y="320" width="150" height="74" rx="8" class="node-box" style="stroke:rgba(246,70,93,.4)"/>
+        <text x="95" y="350" text-anchor="middle" class="node-title" fill="#f6465d">🔥 销毁黑洞</text>
+        <text x="95" y="368" text-anchor="middle" class="node-sub">税收 10%→烧 FISTDAO</text>
+        <rect x="700" y="300" width="200" height="94" rx="8" class="node-box"/>
+        <text x="800" y="330" text-anchor="middle" class="node-title">节点分销网络</text>
+        <text x="800" y="348" text-anchor="middle" class="node-sub">五路等分 + 四路 5/5/10/10</text>
+        <text x="800" y="366" text-anchor="middle" class="node-sub">创始/联创/社区/运营/赞助</text>
+        <rect x="20" y="180" width="150" height="74" rx="8" class="node-box"/>
+        <text x="95" y="210" text-anchor="middle" class="node-title">FISTDAO 母币</text>
+        <text x="95" y="228" text-anchor="middle" class="node-sub">310M · 3% 买卖税</text>
+        <path d="M170 97 C 280 97, 280 192, 380 192" class="flowline" marker-end="url(#arr)"/>
+        <path d="M560 192 C 640 192, 640 67, 700 67" class="flowline hot dash-anim" marker-end="url(#arrHot)"/>
+        <path d="M560 192 C 640 192, 640 187, 700 187" class="flowline" marker-end="url(#arr)"/>
+        <path d="M470 234 C 470 276, 470 276, 470 320" class="flowline up dash-anim" marker-end="url(#arrUp)"/>
+        <path d="M170 217 C 280 217, 280 217, 380 217" class="flowline" marker-end="url(#arr)"/>
+        <path d="M95 254 C 95 290, 95 290, 95 320" class="flowline down dash-anim" marker-end="url(#arr)"/>
+        <path d="M560 357 C 640 357, 640 347, 700 347" class="flowline hot dash-anim" marker-end="url(#arrHot)"/>
+        <path d="M800 104 C 800 130, 800 130, 800 150" class="flowline info dash-anim" marker-end="url(#arr)"/>
+        <path d="M800 224 C 800 260, 800 260, 800 300" class="flowline up dash-anim" marker-end="url(#arrUp)"/>
+        <circle r="5" fill="#FCD535"><animateMotion dur="4s" repeatCount="indefinite" path="M170 97 C 280 97, 280 192, 380 192"/></circle>
+        <circle r="5" fill="#FCD535"><animateMotion dur="5s" repeatCount="indefinite" path="M560 192 C 640 192, 640 67, 700 67"/></circle>
+        <circle r="5" fill="#0ecb81"><animateMotion dur="4.5s" repeatCount="indefinite" path="M470 234 C 470 276, 470 276, 470 320"/></circle>
+        <circle r="5" fill="#f6465d"><animateMotion dur="4s" repeatCount="indefinite" path="M95 254 C 95 290, 95 290, 95 320"/></circle>
+        <circle r="5" fill="#FCD535"><animateMotion dur="5.5s" repeatCount="indefinite" path="M560 357 C 640 357, 640 347, 700 347"/></circle>
+        <circle r="5" fill="#0ecb81"><animateMotion dur="5s" repeatCount="indefinite" path="M800 224 C 800 260, 800 260, 800 300"/></circle>
+        <text x="265" y="88" class="lbl">BNB / FIST 入金</text>
+        <text x="628" y="52" class="lbl hot">收益兑付 + 奖励</text>
+        <text x="628" y="175" class="lbl">20% 入金储备</text>
+        <text x="486" y="300" class="lbl up">70% 组 LP</text>
+        <text x="180" y="245" class="lbl">FISTDAO 税收转换</text>
+        <text x="80" y="312" class="lbl down">10% 买入即烧</text>
+        <text x="628" y="338" class="lbl hot">税收 + 30% 静态收益</text>
+        <text x="818" y="128" class="lbl">国库拨付</text>
+        <text x="818" y="290" class="lbl up">做市买/卖托底</text>
+      </svg>
+    </div>
+    <div class="grid g3" style="margin-top:24px">
+      <div class="card fade d2"><div class="card-tag">币 A · 本项目发行</div><h3>OSK · 220M 固定</h3><p>卖税 10%（5% 销毁 + 5% 进五路节点分红）；买入免手续费，但设 500 万美元 LP 市值安全门槛（防 MEV 滑动窗判定）；白名单免税；国库可从 LP 直提绕税补仓。</p></div>
+      <div class="card fade d3"><div class="card-tag">母币 · 本项目发行</div><h3>FISTDAO · 310M 固定</h3><p>发行价 0.1 美元。买卖税各 3%（1.5% 销毁 + 1.5% 注入 OSK 基础池）、普通转账 1% 全额销毁；矿池 2.095 亿枚经「空投即质押」逐步释放。</p></div>
+      <div class="card fade d4"><div class="card-tag">币 B · 外源 FstSwap</div><h3>FIST · 200M 固定</h3><p>老牌 DEX 治理币：无税、所有权已弃权、28.7 万持有人。作为底层资产承担质押本金、保险池做市弹药与 LP 配对币——生态深度由它的真实流动性背书。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 六大玩法 ==================== -->
+<section id="play">
+  <div class="container">
+    <div class="sec-head fade">
+      <div class="sec-tag">03 · 六大玩法</div>
+      <h2 class="sec-title">一套引擎，<span class="hl">六种赚钱方式</span></h2>
+      <p class="sec-sub">点击切换查看每种玩法的规则、参数与真实链上数据。所有数值均为合约写死的参数（或 2026-10-27 链上实测），无法被任何人修改。</p>
+    </div>
+
+    <div class="tabs">
+      <input type="radio" name="play" id="t1" checked>
+      <input type="radio" name="play" id="t2">
+      <input type="radio" name="play" id="t3">
+      <input type="radio" name="play" id="t4">
+      <input type="radio" name="play" id="t5">
+      <input type="radio" name="play" id="t6">
+      <div class="tabbar">
+        <label for="t1">🌾 农场挖矿</label>
+        <label for="t2">🪙 OSK 质押</label>
+        <label for="t3">💎 FIST 质押</label>
+        <label for="t4">🎁 空投即质押</label>
+        <label for="t5">🏛 节点认购</label>
+        <label for="t6">📡 节点分红</label>
+      </div>
+      <div class="panels">
+
+        <!-- 玩法1：农场 -->
+        <div class="tab-panel" id="p1">
+          <div class="panel-grid">
+            <div>
+              <div class="card">
+                <div class="card-tag">玩法一 · 核心入口</div>
+                <h3>农场挖矿 FarmVault</h3>
+                <p>两条通道共享同一套仓位、收益与 3 倍出局公式，仓位本金一律以 USD 记账。每日利率按 LP 双侧市值自动分档（0.5%–2.5%/天），LP 越深利率越高——正向激励设计。收益逐秒累计，随时领取。</p>
+                <p style="margin-top:10px">资金去向由国库合约强制执行：<span class="up">10% 买入 FISTDAO 并当场销毁</span> · <span class="up">20% 注入保险池</span>（BNB/FIST 储备）· <span class="up">70% 拆半买入 OSK+FIST 组成流动性并送保险池</span>。你的每一笔入金都在加深池子、减少供应。</p>
+                <p style="margin-top:10px">领取冷却 7 天；提现税 5%（2.5% 买 FIST 注入质押池 + 2.5% 五路节点分红）；3 倍出局后重建需 ≥ 上单本金。</p>
+              </div>
+              <div class="card" style="margin-top:16px">
+                <div class="card-tag">13 档日利率（按 LP 市值自动分档）</div>
+                <div class="bar-chart" style="height:190px">
+                  <div class="bar-col"><div class="bar" style="height:20%"><span class="bv">0.5%</span></div><div class="bx">&lt;51万</div></div>
+                  <div class="bar-col"><div class="bar" style="height:28%"><span class="bv">0.7%</span></div><div class="bx">51–101万</div></div>
+                  <div class="bar-col"><div class="bar" style="height:36%"><span class="bv">0.9%</span></div><div class="bx">101–501万</div></div>
+                  <div class="bar-col cur"><div class="bar" style="height:44%"><span class="bv">1.1%</span></div><div class="bx"><span class="cur-tag">当前档</span>501–1001万</div></div>
+                  <div class="bar-col"><div class="bar" style="height:48%"><span class="bv">1.2%</span></div><div class="bx">1001–1501万</div></div>
+                  <div class="bar-col"><div class="bar" style="height:52%"><span class="bv">1.3%</span></div><div class="bx">1501–2001万</div></div>
+                  <div class="bar-col"><div class="bar" style="height:56%"><span class="bv">1.4%</span></div><div class="bx">2001–2501万</div></div>
+                  <div class="bar-col"><div class="bar" style="height:60%"><span class="bv">1.5%</span></div><div class="bx">2501–3000万</div></div>
+                  <div class="bar-col"><div class="bar" style="height:68%"><span class="bv">1.7%</span></div><div class="bx">3000–3501万</div></div>
+                  <div class="bar-col"><div class="bar" style="height:76%"><span class="bv">1.9%</span></div><div class="bx">3501–4001万</div></div>
+                  <div class="bar-col"><div class="bar" style="height:84%"><span class="bv">2.1%</span></div><div class="bx">4001–4501万</div></div>
+                  <div class="bar-col"><div class="bar" style="height:92%"><span class="bv">2.3%</span></div><div class="bx">4501–5001万</div></div>
+                  <div class="bar-col"><div class="bar" style="height:100%"><span class="bv">2.5%</span></div><div class="bx">≥5001万</div></div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="card">
+                <div class="card-tag">参数速览</div>
+                <div class="kv">
+                  <div class="cell"><div class="k">BNB 通道额度</div><div class="v">0.1 – 10 BNB</div></div>
+                  <div class="cell"><div class="k">FIST 通道额度</div><div class="v">$100 – 10,000</div></div>
+                  <div class="cell"><div class="k">日利率</div><div class="v hot">0.5% – 2.5% 自动分档</div></div>
+                  <div class="cell"><div class="k">当前实际档位</div><div class="v hot">1.1% / 天</div></div>
+                  <div class="cell"><div class="k">领取冷却</div><div class="v">7 天</div></div>
+                  <div class="cell"><div class="k">提现税</div><div class="v">5%（2.5+2.5 分流）</div></div>
+                  <div class="cell"><div class="k">本金赎回</div><div class="v">首单终身一次 · BNB 结算</div></div>
+                  <div class="cell"><div class="k">赎回锁仓</div><div class="v">24 小时</div></div>
+                  <div class="cell wide"><div class="k">3 倍出局</div><div class="v">累计收益 ≥ 本金×3 → 关单，末次按封顶截断</div></div>
+                </div>
+              </div>
+              <div class="card card-hl" style="margin-top:16px">
+                <div class="card-tag">链上实测</div>
+                <h3>LP 当前 $1.56M</h3>
+                <p>OSK/FIST 池锁定 <span class="num">115,267,344</span> OSK + <span class="num">3,440,688</span> FIST；保险池坐拥 <span class="num">172.6 BNB</span> 做市弹药。农场正在真实产出（质押池已累积 <span class="num">397,197</span> OSK 奖励税）。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 玩法2：OSK 质押 -->
+        <div class="tab-panel" id="p2">
+          <div class="panel-grid">
+            <div>
+              <div class="card">
+                <div class="card-tag">玩法二 · 固定收益</div>
+                <h3>OSK 质押（stakeA）</h3>
+                <p>把 OSK 锁入 CoreVault，10 天一个周期，每周期固定回报 <span class="num">本金 × 7%</span>（0.7%/天 × 10 天），到期本息可提，或重建续挖。规则透明：不滚存、不逾期加息、不自动复利——赚多赚少一眼算清。</p>
+                <p style="margin-top:10px">每笔质押额外收取 <span class="up">2% 燃料费</span>（按 USD 等值折算成 FIST 收取，不动本金），该 FIST 直接进入 FIST 质押池充当兑付储备——你支付的燃料在托底整个生态的兑付能力。</p>
+                <p style="margin-top:10px">前置条件：先拥有一个农场仓位（锁定推荐关系），即可开启质押。到期后可重建（新单需 ≥ 旧单本金），或等 ready 单解锁拿回本金 + 7%。</p>
+              </div>
+              <div class="card" style="margin-top:16px">
+                <div class="card-tag">周期示意</div>
+                <div style="display:flex;align-items:center;gap:0;margin:8px 0">
+                  <div style="flex:1;text-align:center"><div class="num" style="font-size:20px;font-weight:700;color:var(--primary)">入金</div><div style="font-size:12px;color:var(--muted)">100–100,000 OSK</div></div>
+                  <div style="width:44px;height:2px;background:var(--hairline);position:relative"><div style="position:absolute;inset:0;background:linear-gradient(90deg,transparent,var(--primary));animation:pulseGlow 2s infinite"></div></div>
+                  <div style="flex:1;text-align:center"><div class="num" style="font-size:20px;font-weight:700;color:var(--primary)">10 天周期</div><div style="font-size:12px;color:var(--muted)">固定 +7%</div></div>
+                  <div style="width:44px;height:2px;background:var(--hairline)"></div>
+                  <div style="flex:1;text-align:center"><div class="num" style="font-size:20px;font-weight:700;color:var(--up)">到期</div><div style="font-size:12px;color:var(--muted)">本息可提 / 重建续挖</div></div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="card">
+                <div class="card-tag">参数速览</div>
+                <div class="kv">
+                  <div class="cell"><div class="k">额度</div><div class="v">100 – 100,000 OSK</div></div>
+                  <div class="cell"><div class="k">周期 / 回报</div><div class="v hot">10 天 / +7%</div></div>
+                  <div class="cell"><div class="k">燃料费</div><div class="v">2%（USD 等值 FIST）</div></div>
+                  <div class="cell"><div class="k">燃料去向</div><div class="v">FIST 质押池储备</div></div>
+                  <div class="cell wide"><div class="k">3 倍出局（V1+ 用户）</div><div class="v">本池动态收益 ≥ 本金×3 → 关单不退本金，静态收益延后到重建时补发</div></div>
+                </div>
+              </div>
+              <div class="card" style="margin-top:16px">
+                <div class="card-tag">开放入口</div>
+                <h3>任何人可捐赠</h3>
+                <p>donateOskPool() 向 OSK 质押池捐币，纯强化兑付、无法提取——大户与社区共建池子深度的公开通道。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 玩法3：FIST 质押 -->
+        <div class="tab-panel" id="p3">
+          <div class="panel-grid">
+            <div>
+              <div class="card">
+                <div class="card-tag">玩法三 · 底层资产挖矿</div>
+                <h3>FIST 质押（stakeB）</h3>
+                <p>用外源 FIST 质押，规则与 OSK 质押完全同构：<span class="num">100 – 100,000 FIST</span>、10 天周期、固定 +7%。FIST 是 28.7 万持有人的老牌资产，用它挖矿等于持有底层资产的同时吃生态红利。</p>
+                <p style="margin-top:10px">燃料费 2% 以 FIST 同币种收取，由国库拆半：<span class="up">一半换 OSK，与另一半 FIST 组成 OSK/FIST LP 送入保险池</span>——每一次质押都在为 OSK 加深流动性，质押越多、池越深、全体受益。</p>
+              </div>
+              <div class="card" style="margin-top:16px">
+                <div class="card-tag">链上实测</div>
+                <h3>FIST 池真实运转中</h3>
+                <p>FIST 质押池未结算本金 <span class="num">$135,847</span>，CoreVault 持有 <span class="num">1,029,431 FIST</span> 作为兑付储备——社区资金已经在池子里滚动了。</p>
+              </div>
+            </div>
+            <div>
+              <div class="card">
+                <div class="card-tag">参数速览</div>
+                <div class="kv">
+                  <div class="cell"><div class="k">额度</div><div class="v">100 – 100,000 FIST</div></div>
+                  <div class="cell"><div class="k">周期 / 回报</div><div class="v hot">10 天 / +7%</div></div>
+                  <div class="cell"><div class="k">燃料费</div><div class="v">2%（同币 FIST）</div></div>
+                  <div class="cell"><div class="k">燃料去向</div><div class="v">组 OSK/FIST LP → 保险池</div></div>
+                  <div class="cell wide"><div class="k">3 倍出局</div><div class="v">与 OSK 质押同一套规则，两池独立计算互不影响</div></div>
+                </div>
+              </div>
+              <div class="card" style="margin-top:16px">
+                <div class="card-tag">开放入口</div>
+                <h3>donateFistPool()</h3>
+                <p>与 OSK 池同构的捐赠通道，任何人可注入 FIST 强化兑付。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 玩法4：空投即质押 -->
+        <div class="tab-panel" id="p4">
+          <div class="panel-grid">
+            <div>
+              <div class="card">
+                <div class="card-tag">玩法四 · 官方派单挖矿</div>
+                <h3>FISTDAO 空投即质押</h3>
+                <p>由运营 operator 用 BNB 派单（stakeFor），用户获得 FISTDAO 订单：<span class="num">每 7 天一周期、每轮利息 10.5%</span>，复投时本金+利息滚动，累计利息达订单额 3 倍即出局，须运营再次空投才能重启。</p>
+                <p style="margin-top:10px">规则要点：① 压单额恒为运营指定数量，reinvest() 无金额入参——结构上杜绝用户加仓风险；② 复投重新支付订单额，拿回「本金+利息」；③ 仅 operator 可派单，未派单地址不可挖。</p>
+                <p style="margin-top:10px">池体量：质押池持有 <span class="num">3.076 亿 FISTDAO</span>（占流通供应 99.2%），矿池与空投额度全部在此，按 10.5%/轮 逐步释放给参与者。</p>
+              </div>
+            </div>
+            <div>
+              <div class="card">
+                <div class="card-tag">9 档派单表（BNB → FISTDAO）</div>
+                <div class="table-scroll">
+                <table class="dtable">
+                  <tr><th>档位</th><th>BNB</th><th>FISTDAO</th><th>档位</th><th>BNB</th><th>FISTDAO</th></tr>
+                  <tr><td>1</td><td class="num">0.00001</td><td class="num">100</td><td>6</td><td class="num">0.0003</td><td class="num">15,000</td></tr>
+                  <tr><td>2</td><td class="num">0.00002</td><td class="num">500</td><td>7</td><td class="num">0.0004</td><td class="num">20,000</td></tr>
+                  <tr><td>3</td><td class="num">0.00003</td><td class="num">1,000</td><td>8</td><td class="num">0.0005</td><td class="num">25,000</td></tr>
+                  <tr><td>4</td><td class="num">0.0001</td><td class="num">5,000</td><td>9</td><td class="num">0.0006</td><td class="num">30,000</td></tr>
+                  <tr><td>5</td><td class="num">0.0002</td><td class="num">10,000</td><td>—</td><td>—</td><td>—</td></tr>
+                </table>
+                </div>
+              </div>
+              <div class="card" style="margin-top:16px">
+                <div class="card-tag">参数</div>
+                <div class="kv">
+                  <div class="cell"><div class="k">周期</div><div class="v">7 天</div></div>
+                  <div class="cell"><div class="k">每轮利息</div><div class="v hot">10.5%</div></div>
+                  <div class="cell"><div class="k">3 倍出局</div><div class="v">累计利息 ≥ 订单额×3</div></div>
+                  <div class="cell"><div class="k">派单权限</div><div class="v">仅 operator</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 玩法5：节点认购 -->
+        <div class="tab-panel" id="p5">
+          <div class="panel-grid">
+            <div>
+              <div class="card">
+                <div class="card-tag">玩法五 · 招商主通道 · 销售中</div>
+                <h3>节点认购 DCLPresale</h3>
+                <p>付 BNB 认购 OSK 并获得节点身份，挂入分销网络享受生态成长红利。三档认购统一按发行价 <span class="num">$0.10 / OSK</span>（1 万枚/BNB）计价，全网配额 1014 万枚 OSK，售完即止。</p>
+                <p style="margin-top:10px">资金去向写死在合约里：<span class="up">20% 当场直付推荐人（BNB）</span>，<span class="up">80% 经换币器换成 FIST 进入多签国库</span>（已累计约 112 万 FIST）——推荐人拿现金奖励，国库沉淀生态资产。</p>
+                <p style="margin-top:10px">树状结构：13 个根节点 ×（3 创始 + 9 联创 + 45 社区），新节点继承推荐人的根；一人限购一次；合约「部署即暂停」，13 根全部注册 + 三个分销商反向接线校验通过才开盘——开盘即完整。</p>
+              </div>
+              <div class="card card-hl" style="margin-top:16px;text-align:center;padding-top:34px;padding-bottom:34px">
+                <div style="font-size:30px;font-weight:700;color:var(--primary);line-height:1.4;letter-spacing:.03em">全球39个系统全力打造</div>
+                <div style="font-size:19px;font-weight:600;color:var(--on-dark);margin-top:12px;letter-spacing:.12em">集结号响起，势不可挡</div>
+              </div>
+            </div>
+            <div>
+              <div class="card">
+                <div class="card-tag">三档认购表</div>
+                <div class="table-scroll">
+                <table class="dtable">
+                  <tr><th>档位</th><th>BNB</th><th>OSK</th><th>全网配额</th></tr>
+                  <tr><td>创始节点</td><td class="num">5</td><td class="num">50,000</td><td class="num">39 个（13×3）</td></tr>
+                  <tr><td>联创节点</td><td class="num">2</td><td class="num">20,000</td><td class="num">117 个（13×9）</td></tr>
+                  <tr><td>社区节点</td><td class="num">1</td><td class="num">10,000</td><td class="num">585 个（13×45）</td></tr>
+                </table>
+                </div>
+              </div>
+              <div class="card" style="margin-top:16px">
+                <div class="card-tag">认购款去向</div>
+                <div class="kv">
+                  <div class="cell"><div class="k">20%</div><div class="v hot">直付推荐人 BNB</div></div>
+                  <div class="cell"><div class="k">80%</div><div class="v">换 FIST → 多签国库</div></div>
+                  <div class="cell wide"><div class="k">合约安全</div><div class="v">token/国库/换币器全部 immutable，治理无法改路径；ownable 两步转移，稳定后移交时间锁</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 玩法6：节点分红 -->
+        <div class="tab-panel" id="p6">
+          <div class="panel-grid">
+            <div>
+              <div class="card">
+                <div class="card-tag">玩法六 · 被动收入 · 双系统</div>
+                <h3>节点分红系统</h3>
+                <p><b style="color:var(--primary)">系统一 · 五路等分：</b>OSK 卖出税 5% + 农场提现税 2.5% 全部进入五路分发合约，由创始 / 联创 / 社区 / 运营 / 赞助商五钱包等分。只要生态有交易，节点钱包就在收钱。</p>
+                <p style="margin-top:10px"><b style="color:var(--primary)">系统二 · 四路加权：</b>全网静态收益的 30%（农场每次领取 + 两个质押池每笔静态收益）按 <span class="num">5 / 5 / 10 / 10</span> 加权注入创始 / 联创 / 赞助商 / 运营四个节点矿池——这是合约层面的「额外支出」，不从用户收益中扣，也不计入 3 倍出局口径。</p>
+                <p style="margin-top:10px">触发机制：任何人可调用 trigger() 触发分发（零手续费、一轮分光不留存），转账失败自动记 pending 下轮补发——分红不会丢。</p>
+              </div>
+              <div class="card card-hl" style="margin-top:16px">
+                <div class="card-tag">链上实测</div>
+                <h3>分红池真实累积中</h3>
+                <p>四路分发合约已累积 <span class="num">823,067 OSK</span>；五路分发合约已累积 <span class="num">71,245 OSK</span>——交易量越大，这两个数字涨得越快，节点钱包直接受益。</p>
+              </div>
+            </div>
+            <div>
+              <div class="card">
+                <div class="card-tag">五个钱包分销器结构</div>
+                <div class="table-scroll">
+                <table class="dtable">
+                  <tr><th>钱包</th><th>成员结构</th><th>分法</th></tr>
+                  <tr><td>创始 A</td><td>上限 39 人</td><td>等分 + 尾部兜底</td></tr>
+                  <tr><td>联创 B</td><td>上限 117 人</td><td>等分</td></tr>
+                  <tr><td>社区 C</td><td>上限 585 人</td><td>等分</td></tr>
+                  <tr><td>运营 E</td><td>无上限</td><td>按 bps 比例制</td></tr>
+                  <tr><td>赞助商 E</td><td>无上限</td><td>按 bps 比例制</td></tr>
+                </table>
+                </div>
+                <p style="margin-top:12px;font-size:13px;color:var(--muted)">成员名单由节点认购 registrar 自动登记；所有权已弃权后名单永久冻结——「谁能分到钱」不可再变。</p>
+              </div>
+              <div class="card" style="margin-top:16px">
+                <div class="card-tag">权重示意</div>
+                <div style="display:flex;height:26px;border-radius:6px;overflow:hidden;margin:10px 0">
+                  <div style="width:16.7%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--on-primary)">5</div>
+                  <div style="width:16.7%;background:var(--primary-active);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--on-primary)">5</div>
+                  <div style="width:33.3%;background:var(--up);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff">10</div>
+                  <div style="width:33.3%;background:#2dbdb6;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff">10</div>
+                </div>
+                <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted)"><span>■ 创始 5%</span><span>■ 联创 5%</span><span>■ 赞助商 10%</span><span>■ 运营 10%</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 核心优势 ==================== -->
+<section id="why" style="background:rgba(30,35,41,.35);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)">
+  <div class="container">
+    <div class="sec-head fade">
+      <div class="sec-tag">02 · 核心优势</div>
+      <h2 class="sec-title">为什么这套引擎<span class="hl">值得入局</span></h2>
+      <p class="sec-sub">六条硬优势，每一条都由链上合约强制执行，而非项目方承诺。</p>
+    </div>
+    <div class="grid g3">
+      <div class="card card-hl fade d1">
+        <div class="card-tag">优势 01 · 无法 Rug</div>
+        <h3>16 份合约所有权全部弃权</h3>
+        <p>owner = 0x0 经跨 RPC 复核。没有任何人可以提走合约资金、改参数、发新币。代码即法律，规则上线即冻结——这是链上项目最硬的信任承诺。</p>
+      </div>
+      <div class="card card-hl fade d2">
+        <div class="card-tag">优势 02 · 三重销毁引擎</div>
+        <h3>每一笔资金都在减少供应</h3>
+        <p>OSK 卖税 5% 烧；FISTDAO 买卖税 1.5% + 转账 1% 烧；农场与 FIST 入金的 10% 买入 FISTDAO 后当场销毁——持续通缩，存量持有者被动受益。</p>
+      </div>
+      <div class="card card-hl fade d3">
+        <div class="card-tag">优势 03 · 流动性飞轮</div>
+        <h3>税收与入金自动组 LP</h3>
+        <p>农场入金 70%、FIST 质押燃料、FISTDAO 税收，全部经合约自动换成 OSK+FIST 并组入流动性池送保险池——交易越活跃，池子越深，深度即安全。</p>
+      </div>
+      <div class="card card-hl fade d4">
+        <div class="card-tag">优势 04 · 机器做市托底</div>
+        <h3>保险池自动买跌卖涨</h3>
+        <p>OSK 较当日参考价跌 ≥10% 自动用储备买入托至 -5%；涨 ≥10% 自动卖出压至 +3%。日周期、单笔 ≤1000 美元、参考价带 20% 防操纵钳制。</p>
+      </div>
+      <div class="card card-hl fade d5">
+        <div class="card-tag">优势 05 · 抗操纵预言机</div>
+        <h3>三源中位数 + 防 MEV 滑动窗</h3>
+        <p>价格取「实时 spot + 30 分钟 TWAP + 3 区块均值」三源中位数，闪贷单点操纵无效；买入门槛用 3 区块滑动均值判定，单区块注入无法撬动。</p>
+      </div>
+      <div class="card card-hl fade d6">
+        <div class="card-tag">优势 06 · 工程级代码质量</div>
+        <h3>全部合约 Sourcify 精确验证</h3>
+        <p>16 份合约 exact_match 全通过，源码公开可审计；瞬态重入锁、CEI 结算顺序、税收代币友好换币路径（SupportingFeeOnTransfer）等细节全部到位。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 参与流程 ==================== -->
+<section id="how">
+  <div class="container">
+    <div class="sec-head fade">
+      <div class="sec-tag">04 · 怎么玩</div>
+      <h2 class="sec-title">两条路径，<span class="hl">五步入场</span></h2>
+      <p class="sec-sub">矿工走「挖矿路径」，招商对象走「节点路径」——流程全部在链上完成，无人工环节。</p>
+    </div>
+    <div class="card fade d1" style="margin-bottom:20px">
+      <div class="card-tag">路径 A · 矿工挖矿流程</div>
+      <div class="steps">
+        <div class="step"><span class="tag">STEP</span><h4>连接钱包</h4><p>MetaMask / TokenPocket / Ledger 等任意 BSC 钱包，切换 BSC 主网（ChainID 56）。</p></div>
+        <div class="step"><span class="tag">STEP</span><h4>农场入金</h4><p>BNB（0.1–10）或 FIST（$100–10K）存入农场，锁定推荐关系，开启仓位与 13 档利率计息。</p></div>
+        <div class="step"><span class="tag">STEP</span><h4>质押加码</h4><p>有农场仓位后即可质押 OSK / FIST（100–100K），10 天一周期固定 +7%，双池并行。</p></div>
+        <div class="step"><span class="tag">STEP</span><h4>复投与推荐</h4><p>邀请好友得九代直推（8%/5%/1%）+ 百层团队差级（V1–V7 最高 50%），奖励扣 20% 税回流奖池。</p></div>
+        <div class="step"><span class="tag">STEP</span><h4>领取 / 出局</h4><p>冷却 7 天领收益（扣 5% 提现税）；3 倍出局后按「≥上单本金」重建继续；首单本金可 BNB 赎回。</p></div>
+      </div>
+    </div>
+    <div class="card fade d2">
+      <div class="card-tag">路径 B · 节点认购流程（招商对象）</div>
+      <div class="steps">
+        <div class="step"><span class="tag">STEP</span><h4>选择档位</h4><p>创始 5 BNB / 联创 2 BNB / 社区 1 BNB，对应 5万/2万/1万 OSK，配额有限售完即止。</p></div>
+        <div class="step"><span class="tag">STEP</span><h4>填写推荐人</h4><p>认购即挂入推荐人的根节点树（13 根结构），推荐人当场获得 20% BNB 现金奖励。</p></div>
+        <div class="step"><span class="tag">STEP</span><h4>链上支付</h4><p>合约收款 80% 自动换 FIST 进多签国库，20% 直付推荐人；全程 CEI 结算，一步失败全单回滚。</p></div>
+        <div class="step"><span class="tag">STEP</span><h4>入册分红网络</h4><p>节点身份自动登记进对应钱包分销器（A 39 人 / B 117 人 / C 585 人），开始领取节点分红。</p></div>
+        <div class="step"><span class="tag">STEP</span><h4>持续收益</h4><p>五路等分（OSK 税）+ 四路加权（静态收益 30%）持续入账，任何人可触发发放，收益随生态成长。</p></div>
+      </div>
+    </div>
+    <div class="card fade d3" style="margin-top:20px">
+      <div class="card-tag">路径 C · 绑定推荐关系（实操教程）</div>
+      <div class="bind-grid">
+        <div class="bind-col">
+          <div class="bind-video">
+            <video controls playsinline preload="metadata" src="assets/tutorial-bind-referrer.mp4"></video>
+          </div>
+          <div class="vid-tip">📱 竖屏实操教程：如何在官方前端绑定推荐关系</div>
+          <div class="ref-box" id="refBox" style="display:none">
+            <div class="ref-label">🔗 本页推荐人地址（来自分享链接）</div>
+            <div class="addr-row">
+              <span class="mono" id="refAddr">0x…</span>
+              <button class="btn btn-dark copy-btn" id="btnCopyRef" type="button">复制</button>
+            </div>
+            <div class="ref-hint">把该地址填入官方前端「推荐人」栏即可完成绑定（操作步骤见上方视频）。推荐关系一旦绑定不可更改。</div>
+          </div>
+        </div>
+        <div class="bind-col">
+          <div class="wallet-card">
+            <div class="wallet-title">🔐 我的推荐关系</div>
+            <div id="loginBox">
+              <p class="wallet-note">正常浏览本页<b>无需登录</b>。使用 TP 钱包（BSC 链）签名登录需支付 <b class="num">0.005 BNB</b> 网页制作费；绑定自己的推荐地址需再支付 <b class="num">0.005 BNB</b>。绑定后把本页链接发给朋友，对方页面即显示你的推荐地址。</p>
+              <button class="btn btn-yellow" id="btnLogin" type="button">TP 钱包登录（签名 · 0.005 BNB）</button>
+            </div>
+            <div id="meBox" style="display:none">
+              <div class="wallet-note">我的钱包地址</div>
+              <div class="addr-row">
+                <span class="mono" id="myAddr"></span>
+                <button class="btn btn-dark copy-btn" id="btnCopyAddr" type="button">复制</button>
+              </div>
+              <div class="wallet-note" style="margin-top:16px">我的推广链接（发给朋友 → 对方页面显示你的推荐地址）</div>
+              <div class="addr-row">
+                <span class="mono" id="myLink"></span>
+                <button class="btn btn-dark copy-btn" id="btnCopyLink" type="button">复制</button>
+              </div>
+              <div style="margin-top:18px">
+                <button class="btn btn-green" id="btnBind" type="button">绑定推荐地址（0.005 BNB）</button>
+                <span class="bind-ok" id="bindState" style="display:none">✓ 已绑定推荐地址 · 推广链接已生效</span>
+              </div>
+            </div>
+            <div class="wstatus" id="walletStatus"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 资金走账全景 ==================== -->
+<section id="flow" style="background:rgba(30,35,41,.35);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)">
+  <div class="container">
+    <div class="sec-head fade">
+      <div class="sec-tag">05 · 资金走账</div>
+      <h2 class="sec-title">每一分钱怎么走，<span class="hl">链上一目了然</span></h2>
+      <p class="sec-sub">三条资金主路径全部由合约强制执行——不是承诺，是代码。动图按真实参数绘制。</p>
+    </div>
+
+    <div class="grid g2">
+      <div class="flow-panel fade d1">
+        <div class="fp-title"><div class="ico">💧</div><div><h3>入金分配：10 / 20 / 70</h3><div class="desc">农场 BNB / FIST 入金的强制分流（国库合约执行）</div></div></div>
+        <svg viewBox="0 0 440 330" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="20" width="120" height="60" rx="8" class="node-box"/>
+          <text x="80" y="44" text-anchor="middle" class="node-title">用户入金</text>
+          <text x="80" y="62" text-anchor="middle" class="node-sub">BNB / FIST</text>
+          <rect x="300" y="10" width="120" height="60" rx="8" class="node-box" style="stroke:rgba(246,70,93,.4)"/>
+          <text x="360" y="34" text-anchor="middle" class="node-title" fill="#f6465d">销毁 10%</text>
+          <text x="360" y="52" text-anchor="middle" class="node-sub">买 FISTDAO 即烧</text>
+          <rect x="300" y="95" width="120" height="60" rx="8" class="node-box"/>
+          <text x="360" y="119" text-anchor="middle" class="node-title">保险池 20%</text>
+          <text x="360" y="137" text-anchor="middle" class="node-sub">做市+赎回储备</text>
+          <rect x="300" y="180" width="120" height="60" rx="8" class="node-box"/>
+          <text x="360" y="204" text-anchor="middle" class="node-title">组 LP 70%</text>
+          <text x="360" y="222" text-anchor="middle" class="node-sub">拆半买 OSK+FIST</text>
+          <rect x="140" y="240" width="140" height="60" rx="8" class="node-box" style="stroke:rgba(252,213,53,.5)"/>
+          <text x="210" y="264" text-anchor="middle" class="node-title">OSK/FIST 流动性池</text>
+          <text x="210" y="282" text-anchor="middle" class="node-sub">LP 送保险池</text>
+          <path d="M140 50 C 220 50, 220 40, 300 40" class="flowline down dash-anim" marker-end="url(#arr)"/>
+          <path d="M140 50 C 220 50, 220 125, 300 125" class="flowline dash-anim" marker-end="url(#arr)"/>
+          <path d="M140 50 C 220 50, 220 210, 300 210" class="flowline up dash-anim" marker-end="url(#arrUp)"/>
+          <path d="M360 240 C 330 270, 280 270, 280 270" class="flowline hot dash-anim" marker-end="url(#arrHot)"/>
+          <circle r="4.5" fill="#f6465d"><animateMotion dur="3.5s" repeatCount="indefinite" path="M140 50 C 220 50, 220 40, 300 40"/></circle>
+          <circle r="4.5" fill="#929aa5"><animateMotion dur="4s" repeatCount="indefinite" path="M140 50 C 220 50, 220 125, 300 125"/></circle>
+          <circle r="4.5" fill="#0ecb81"><animateMotion dur="4.5s" repeatCount="indefinite" path="M140 50 C 220 50, 220 210, 300 210"/></circle>
+          <circle r="4.5" fill="#FCD535"><animateMotion dur="3.5s" repeatCount="indefinite" path="M360 240 C 330 270, 280 270, 280 270"/></circle>
+          <text x="186" y="22" class="lbl down">10%</text>
+          <text x="186" y="112" class="lbl">20%</text>
+          <text x="186" y="196" class="lbl up">70%</text>
+          <text x="316" y="262" class="lbl hot">LP 送入</text>
+        </svg>
+      </div>
+
+      <div class="flow-panel fade d2">
+        <div class="fp-title"><div class="ico">💸</div><div><h3>税收流转：买卖税与提现税</h3><div class="desc">OSK 卖税 10% + 农场提现税 5% 的强制去向</div></div></div>
+        <svg viewBox="0 0 440 330" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="20" width="130" height="60" rx="8" class="node-box"/>
+          <text x="85" y="44" text-anchor="middle" class="node-title">OSK 卖出</text>
+          <text x="85" y="62" text-anchor="middle" class="node-sub">税 10%</text>
+          <rect x="20" y="150" width="130" height="60" rx="8" class="node-box"/>
+          <text x="85" y="174" text-anchor="middle" class="node-title">农场领收益</text>
+          <text x="85" y="192" text-anchor="middle" class="node-sub">提现税 5%</text>
+          <rect x="300" y="10" width="120" height="60" rx="8" class="node-box" style="stroke:rgba(246,70,93,.4)"/>
+          <text x="360" y="34" text-anchor="middle" class="node-title" fill="#f6465d">销毁 5%</text>
+          <text x="360" y="52" text-anchor="middle" class="node-sub">永久退出流通</text>
+          <rect x="300" y="95" width="120" height="60" rx="8" class="node-box"/>
+          <text x="360" y="119" text-anchor="middle" class="node-title">五路分发</text>
+          <text x="360" y="137" text-anchor="middle" class="node-sub">A/B/C/D/E 等分</text>
+          <rect x="300" y="180" width="120" height="60" rx="8" class="node-box"/>
+          <text x="360" y="204" text-anchor="middle" class="node-title">FIST 质押池</text>
+          <text x="360" y="222" text-anchor="middle" class="node-sub">2.5% 买 FIST 注入</text>
+          <rect x="20" y="245" width="130" height="56" rx="8" class="node-box" style="stroke:rgba(252,213,53,.5)"/>
+          <text x="85" y="268" text-anchor="middle" class="node-title">FISTDAO 买卖税</text>
+          <text x="85" y="286" text-anchor="middle" class="node-sub">3% → 1.5 烧 + 1.5 池</text>
+          <path d="M150 40 C 220 40, 220 40, 300 40" class="flowline down dash-anim" marker-end="url(#arr)"/>
+          <path d="M150 50 C 220 50, 220 125, 300 125" class="flowline hot dash-anim" marker-end="url(#arrHot)"/>
+          <path d="M150 180 C 220 180, 220 125, 300 125" class="flowline hot dash-anim" marker-end="url(#arrHot)"/>
+          <path d="M150 190 C 220 190, 220 210, 300 210" class="flowline info dash-anim" marker-end="url(#arr)"/>
+          <path d="M85 245 C 85 230, 85 230, 85 210" class="flowline down dash-anim" marker-end="url(#arr)"/>
+          <path d="M150 268 C 220 268, 220 268, 300 268" class="flowline" marker-end="url(#arr)"/>
+          <circle r="4.5" fill="#f6465d"><animateMotion dur="3s" repeatCount="indefinite" path="M150 40 C 220 40, 220 40, 300 40"/></circle>
+          <circle r="4.5" fill="#FCD535"><animateMotion dur="3.6s" repeatCount="indefinite" path="M150 50 C 220 50, 220 125, 300 125"/></circle>
+          <circle r="4.5" fill="#FCD535"><animateMotion dur="3.8s" repeatCount="indefinite" path="M150 180 C 220 180, 220 125, 300 125"/></circle>
+          <circle r="4.5" fill="#3b82f6"><animateMotion dur="4s" repeatCount="indefinite" path="M150 190 C 220 190, 220 210, 300 210"/></circle>
+          <circle r="4.5" fill="#f6465d"><animateMotion dur="3.4s" repeatCount="indefinite" path="M85 245 C 85 230, 85 230, 85 210"/></circle>
+          <text x="196" y="22" class="lbl down">5% 烧</text>
+          <text x="196" y="60" class="lbl hot">5% 节点</text>
+          <text x="196" y="170" class="lbl hot">2.5% 节点</text>
+          <text x="196" y="235" class="lbl">2.5% FIST 池</text>
+          <text x="122" y="238" class="lbl down">1.5% 烧</text>
+        </svg>
+      </div>
+
+      <div class="flow-panel fade d3">
+        <div class="fp-title"><div class="ico">📡</div><div><h3>静态收益 30% → 四路节点矿池</h3><div class="desc">农场每次领取 + 质押每笔静态收益的强制分流（额外成本，不从用户收益扣）</div></div></div>
+        <svg viewBox="0 0 440 300" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="20" width="130" height="60" rx="8" class="node-box"/>
+          <text x="85" y="44" text-anchor="middle" class="node-title">农场领取收益</text>
+          <text x="85" y="62" text-anchor="middle" class="node-sub">每笔 claim</text>
+          <rect x="20" y="130" width="130" height="60" rx="8" class="node-box"/>
+          <text x="85" y="154" text-anchor="middle" class="node-title">质押静态收益</text>
+          <text x="85" y="172" text-anchor="middle" class="node-sub">7%/周期的本金息</text>
+          <rect x="290" y="75" width="130" height="66" rx="8" class="node-box" style="stroke:rgba(252,213,53,.5)"/>
+          <text x="355" y="99" text-anchor="middle" class="node-title">四路分发合约</text>
+          <text x="355" y="117" text-anchor="middle" class="node-sub">30% 静态收益</text>
+          <rect x="150" y="200" width="72" height="52" rx="8" class="node-box"/>
+          <text x="186" y="222" text-anchor="middle" class="node-title">创始 5</text>
+          <text x="186" y="240" text-anchor="middle" class="node-sub" fill="#FCD535">5%</text>
+          <rect x="232" y="200" width="72" height="52" rx="8" class="node-box"/>
+          <text x="268" y="222" text-anchor="middle" class="node-title">联创 5</text>
+          <text x="268" y="240" text-anchor="middle" class="node-sub" fill="#FCD535">5%</text>
+          <rect x="314" y="200" width="52" height="52" rx="8" class="node-box"/>
+          <text x="340" y="222" text-anchor="middle" class="node-title" fill="#0ecb81">赞助</text>
+          <text x="340" y="240" text-anchor="middle" class="node-sub" fill="#0ecb81">10%</text>
+          <rect x="376" y="200" width="52" height="52" rx="8" class="node-box"/>
+          <text x="402" y="222" text-anchor="middle" class="node-title" fill="#2dbdb6">运营</text>
+          <text x="402" y="240" text-anchor="middle" class="node-sub" fill="#2dbdb6">10%</text>
+          <path d="M150 50 C 240 50, 240 108, 290 108" class="flowline up dash-anim" marker-end="url(#arrUp)"/>
+          <path d="M150 160 C 240 160, 240 108, 290 108" class="flowline up dash-anim" marker-end="url(#arrUp)"/>
+          <path d="M355 141 C 355 170, 340 175, 186 200" class="flowline hot dash-anim" marker-end="url(#arrHot)"/>
+          <path d="M355 141 C 355 175, 268 178, 268 200" class="flowline hot dash-anim" marker-end="url(#arrHot)"/>
+          <path d="M355 141 C 355 190, 340 190, 340 200" class="flowline up dash-anim" marker-end="url(#arrUp)"/>
+          <path d="M355 141 C 355 190, 402 190, 402 200" class="flowline info dash-anim" marker-end="url(#arr)"/>
+          <circle r="4.5" fill="#0ecb81"><animateMotion dur="3.5s" repeatCount="indefinite" path="M150 50 C 240 50, 240 108, 290 108"/></circle>
+          <circle r="4.5" fill="#0ecb81"><animateMotion dur="4s" repeatCount="indefinite" path="M150 160 C 240 160, 240 108, 290 108"/></circle>
+          <circle r="4.5" fill="#FCD535"><animateMotion dur="3.2s" repeatCount="indefinite" path="M355 141 C 355 170, 340 175, 186 200"/></circle>
+          <circle r="4.5" fill="#FCD535"><animateMotion dur="3.6s" repeatCount="indefinite" path="M355 141 C 355 175, 268 178, 268 200"/></circle>
+          <circle r="4.5" fill="#0ecb81"><animateMotion dur="3.4s" repeatCount="indefinite" path="M355 141 C 355 190, 340 190, 340 200"/></circle>
+          <circle r="4.5" fill="#2dbdb6"><animateMotion dur="3.8s" repeatCount="indefinite" path="M355 141 C 355 190, 402 190, 402 200"/></circle>
+          <text x="186" y="42" class="lbl up">30% 静态收益</text>
+          <text x="186" y="196" class="lbl up">同上</text>
+          <text x="330" y="182" class="lbl hot">5/5/10/10 加权</text>
+        </svg>
+      </div>
+
+      <div class="flow-panel fade d4">
+        <div class="fp-title"><div class="ico">🔁</div><div><h3>FISTDAO 税收 → 五跳换币 → LP</h3><div class="desc">1.5% 买卖税经国库 keeper 自动转换（任何人可触发）</div></div></div>
+        <svg viewBox="0 0 440 300" xmlns="http://www.w3.org/2000/svg">
+          <rect x="14" y="20" width="92" height="52" rx="8" class="node-box"/>
+          <text x="60" y="41" text-anchor="middle" class="node-title">FISTDAO</text>
+          <text x="60" y="59" text-anchor="middle" class="node-sub">税 1.5%</text>
+          <rect x="122" y="20" width="70" height="52" rx="8" class="node-box"/>
+          <text x="157" y="41" text-anchor="middle" class="node-title">BNI</text>
+          <text x="157" y="59" text-anchor="middle" class="node-sub">中间币</text>
+          <rect x="208" y="20" width="76" height="52" rx="8" class="node-box"/>
+          <text x="246" y="41" text-anchor="middle" class="node-title">WBNB</text>
+          <text x="246" y="59" text-anchor="middle" class="node-sub">桥接</text>
+          <rect x="300" y="20" width="66" height="52" rx="8" class="node-box"/>
+          <text x="333" y="41" text-anchor="middle" class="node-title">USDT</text>
+          <text x="333" y="59" text-anchor="middle" class="node-sub">计价</text>
+          <rect x="382" y="20" width="52" height="52" rx="8" class="node-box" style="stroke:rgba(252,213,53,.5)"/>
+          <text x="408" y="41" text-anchor="middle" class="node-title">FIST</text>
+          <text x="408" y="59" text-anchor="middle" class="node-sub">终点</text>
+          <rect x="200" y="130" width="140" height="60" rx="8" class="node-box"/>
+          <text x="270" y="154" text-anchor="middle" class="node-title">国库转换器</text>
+          <text x="270" y="172" text-anchor="middle" class="node-sub">五跳 · 滑点 15%</text>
+          <rect x="200" y="230" width="140" height="56" rx="8" class="node-box" style="stroke:rgba(14,203,129,.5)"/>
+          <text x="270" y="253" text-anchor="middle" class="node-title">拆半组 LP → 保险池</text>
+          <text x="270" y="271" text-anchor="middle" class="node-sub">半买 OSK + 半 FIST</text>
+          <path d="M60 72 C 60 100, 270 100, 270 130" class="flowline dash-anim" marker-end="url(#arr)"/>
+          <path d="M408 72 C 408 100, 270 100, 270 130" class="flowline dash-anim" marker-end="url(#arr)"/>
+          <path d="M270 190 C 270 210, 270 210, 270 230" class="flowline up dash-anim" marker-end="url(#arrUp)"/>
+          <circle r="4.5" fill="#929aa5"><animateMotion dur="3.2s" repeatCount="indefinite" path="M60 72 C 60 100, 270 100, 270 130"/></circle>
+          <circle r="4.5" fill="#FCD535"><animateMotion dur="3.2s" repeatCount="indefinite" path="M408 72 C 408 100, 270 100, 270 130"/></circle>
+          <circle r="4.5" fill="#0ecb81"><animateMotion dur="3s" repeatCount="indefinite" path="M270 190 C 270 210, 270 210, 270 230"/></circle>
+          <text x="60" y="98" class="lbl">FISTDAO→BNI→WBNB→USDT→FIST</text>
+          <text x="408" y="98" class="lbl hot" text-anchor="end">反向路径同时成立</text>
+          <text x="286" y="218" class="lbl up">保险池承接 LP</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 经济模型 ==================== -->
+<section id="model">
+  <div class="container">
+    <div class="sec-head fade">
+      <div class="sec-tag">06 · 经济模型</div>
+      <h2 class="sec-title">通缩供给 × 高息挖矿 × <span class="hl">三层收益结构</span></h2>
+      <p class="sec-sub">两种固定供应代币 + 三重销毁 + 收益支出结构公开化——经济账全部可算。</p>
+    </div>
+
+    <div class="grid g2">
+      <div class="flow-panel fade d1">
+        <div class="fp-title"><div class="ico">🥧</div><div><h3>OSK 供给分布（220M 固定 · 链上实测）</h3></div></div>
+        <div class="donut-wrap">
+          <div class="donut">
+            <svg viewBox="0 0 200 200" width="200" height="200">
+              <circle cx="100" cy="100" r="84" fill="none" stroke="#2b3139" stroke-width="26"/>
+              <circle cx="100" cy="100" r="84" fill="none" stroke="#FCD535" stroke-width="26" stroke-dasharray="192.4 527.8" stroke-dashoffset="0"/>
+              <circle cx="100" cy="100" r="84" fill="none" stroke="#0ecb81" stroke-width="26" stroke-dasharray="276.5 527.8" stroke-dashoffset="-192.4"/>
+              <circle cx="100" cy="100" r="84" fill="none" stroke="#3b82f6" stroke-width="26" stroke-dasharray="37.3 527.8" stroke-dashoffset="-468.9"/>
+              <circle cx="100" cy="100" r="84" fill="none" stroke="#2dbdb6" stroke-width="26" stroke-dasharray="21.5 527.8" stroke-dashoffset="-506.2"/>
+            </svg>
+            <div class="center"><div class="v">220M</div><div class="l">OSK 总供应</div></div>
+          </div>
+          <div class="legend">
+            <div class="li"><span class="sw" style="background:#FCD535"></span><span class="name">国库储备（奖励兑付总阀门）</span><span class="pct">36.4%</span><span class="val">80.0M</span></div>
+            <div class="li"><span class="sw" style="background:#0ecb81"></span><span class="name">OSK/FIST 流动性池锁定</span><span class="pct">52.4%</span><span class="val">115.3M</span></div>
+            <div class="li"><span class="sw" style="background:#3b82f6"></span><span class="name">节点认购配额（已售 4.17M）</span><span class="pct">2.7%</span><span class="val">6.0M</span></div>
+            <div class="li"><span class="sw" style="background:#2dbdb6"></span><span class="name">质押池 + 分销器 + 保险池等</span><span class="pct">1.5%</span><span class="val">3.2M</span></div>
+            <div class="li"><span class="sw" style="background:#707a8a"></span><span class="name">其他流通（部署者/场外）</span><span class="pct">7.1%</span><span class="val">15.6M</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-panel fade d2">
+        <div class="fp-title"><div class="ico">🏛</div><div><h3>FISTDAO 母币分配（310M 固定）</h3></div></div>
+        <div class="donut-wrap">
+          <div class="donut">
+            <svg viewBox="0 0 200 200" width="200" height="200">
+              <circle cx="100" cy="100" r="84" fill="none" stroke="#2b3139" stroke-width="26"/>
+              <circle cx="100" cy="100" r="84" fill="none" stroke="#FCD535" stroke-width="26" stroke-dasharray="519.5 527.8" stroke-dashoffset="0"/>
+              <circle cx="100" cy="100" r="84" fill="none" stroke="#0ecb81" stroke-width="26" stroke-dasharray="6.9 527.8" stroke-dashoffset="-519.5"/>
+              <circle cx="100" cy="100" r="84" fill="none" stroke="#f6465d" stroke-width="26" stroke-dasharray="1.4 527.8" stroke-dashoffset="-526.4"/>
+            </svg>
+            <div class="center"><div class="v">310M</div><div class="l">FISTDAO 总供应</div></div>
+          </div>
+          <div class="legend">
+            <div class="li"><span class="sw" style="background:#FCD535"></span><span class="name">空投即质押池（矿池+空投，10.5%/轮 释放）</span><span class="pct">99.2%</span><span class="val">307.6M</span></div>
+            <div class="li"><span class="sw" style="background:#0ecb81"></span><span class="name">二级市场对盘（BNI/FISTDAO）</span><span class="pct">0.09%</span><span class="val">0.28M</span></div>
+            <div class="li"><span class="sw" style="background:#f6465d"></span><span class="name">已销毁（税收与转账燃烧）</span><span class="pct">0.16%</span><span class="val">0.50M</span></div>
+          </div>
+        </div>
+        <p style="margin-top:14px;font-size:13px;color:var(--muted)">发行分配：基础池 50 万 / 空投 1 亿 / 矿池 2.095 亿。空投与矿池额度全部进入「空投即质押」合约，由 operator 派单逐步释放给挖矿用户——供应有节奏、释放有上限。</p>
+      </div>
+    </div>
+
+    <div class="flow-panel fade d3" style="margin-top:24px">
+      <div class="fp-title"><div class="ico">📊</div><div><h3>收益支出结构：合约口径公开化</h3><div class="desc">每一笔静态收益的支出构成（政策 1.0 确认口径：全部为税前、节点腿为额外成本）</div></div></div>
+      <div style="display:flex;height:34px;border-radius:8px;overflow:hidden;margin:14px 0">
+        <div style="width:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--on-primary)">用户 100%</div>
+        <div style="width:10%;background:#0ecb81;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff">直推 20%</div>
+        <div style="width:25%;background:#3b82f6;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff">团队 50%</div>
+        <div style="width:15%;background:#2dbdb6;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff">节点 30%</div>
+      </div>
+      <p style="font-size:13.5px;color:var(--muted-strong);line-height:1.8">总支出 = 用户 100% + 直推奖励 20% + 团队奖励 50% + 节点矿池 30% = <span class="num" style="color:var(--primary)">200%</span>（全部税前口径）。其中节点 30% 是合约层面的「额外支出」——不占用户份额、不参与 3 倍出局核算，来源是国库与节点分红系统的持续注入。直推九代（8% / 5% / 1%×7）、团队 V1–V7 差级（10%–50%）、全部奖励先扣 20% 税回流奖池。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 分配方式 ==================== -->
+<section id="dist" style="background:rgba(30,35,41,.35);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)">
+  <div class="container">
+    <div class="sec-head fade">
+      <div class="sec-tag">07 · 分配方式</div>
+      <h2 class="sec-title">钱怎么分，<span class="hl">合约写死</span></h2>
+      <p class="sec-sub">入金、税收、收益、分红——四张分配表全部在链上强制。</p>
+    </div>
+    <div class="grid g2">
+      <div class="table-wrap fade d1">
+        <div class="card-tag" style="padding:20px 24px 0">入金与税收分配表</div>
+        <div class="table-scroll" style="padding:12px 24px 20px">
+        <table class="dtable">
+          <tr><th>资金项</th><th>比例</th><th>去向（合约强制）</th></tr>
+          <tr><td>农场入金（BNB/FIST）</td><td class="num">10%</td><td>买入 FISTDAO 当场销毁</td></tr>
+          <tr><td>农场入金（BNB/FIST）</td><td class="num">20%</td><td>保险池储备（BNB/FIST）</td></tr>
+          <tr><td>农场入金（BNB/FIST）</td><td class="num">70%</td><td>拆半组 OSK/FIST LP → 保险池</td></tr>
+          <tr><td>OSK 卖出税</td><td class="num">5% + 5%</td><td>5% 销毁 + 5% 五路节点等分</td></tr>
+          <tr><td>农场提现税</td><td class="num">2.5% + 2.5%</td><td>买 FIST 注入质押池 + 五路等分</td></tr>
+          <tr><td>FISTDAO 买卖税</td><td class="num">1.5% + 1.5%</td><td>销毁 + 国库换 FIST 组 LP → 保险池</td></tr>
+          <tr><td>FISTDAO 转账税</td><td class="num">1%</td><td>全额销毁</td></tr>
+          <tr><td>静态收益（农场+双质押）</td><td class="num">30%</td><td>四路节点矿池 5/5/10/10 加权</td></tr>
+          <tr><td>推荐/团队奖励</td><td class="num">20%</td><td>扣税后 80% 发放，税款回流对应奖池</td></tr>
+          <tr><td>质押燃料费</td><td class="num">2%</td><td>OSK 质押→FIST 池储备；FIST 质押→组 LP 进保险池</td></tr>
+        </table>
+        </div>
+      </div>
+      <div class="table-wrap fade d2">
+        <div class="card-tag" style="padding:20px 24px 0">节点认购分配表（招商核心）</div>
+        <div class="table-scroll" style="padding:12px 24px 20px">
+        <table class="dtable">
+          <tr><th>档位</th><th>认购额</th><th>OSK 发放</th><th>配额</th></tr>
+          <tr><td><span class="pill pill-y">创始节点</span></td><td class="num">5 BNB</td><td class="num">50,000</td><td class="num">39 个</td></tr>
+          <tr><td><span class="pill pill-b">联创节点</span></td><td class="num">2 BNB</td><td class="num">20,000</td><td class="num">117 个</td></tr>
+          <tr><td><span class="pill pill-g">社区节点</span></td><td class="num">1 BNB</td><td class="num">10,000</td><td class="num">585 个</td></tr>
+          <tr><td>认购款去向</td><td class="num">20%</td><td colspan="2">直付推荐人（BNB 现金奖励）</td></tr>
+          <tr><td>认购款去向</td><td class="num">80%</td><td colspan="2">换 FIST → 多签国库（生态资产沉淀）</td></tr>
+          <tr><td>分红系统一</td><td class="num">等分</td><td colspan="2">OSK 税 → 五钱包等分（含社区）</td></tr>
+          <tr><td>分红系统二</td><td class="num">5/5/10/10</td><td colspan="2">静态收益 30% → 四钱包加权</td></tr>
+        </table>
+        </div>
+        <p style="font-size:12.5px;color:var(--muted);padding:0 24px 16px">注：节点认购价格为发行价 $0.10/OSK，二级市场价随 LP 波动，请以官方前端实时报价为准。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 安全体系 ==================== -->
+<section id="safe">
+  <div class="container">
+    <div class="sec-head fade">
+      <div class="sec-tag">08 · 安全体系</div>
+      <h2 class="sec-title">安全不是口号，<span class="hl">是链上可验证的事实</span></h2>
+      <p class="sec-sub">六层安全设计 + 全部可公开复核的验证结论。</p>
+    </div>
+    <div class="grid g3">
+      <div class="card card-hl fade d1"><div class="card-tag">验证事实 01</div><h3>所有权 100% 弃权</h3><p>16 份合约 owner() 全部返回 0x0（跨 2 个独立公共 RPC 复核）。无 rug 可能；同时参数、名单、白名单永久冻结，规则不可改。</p></div>
+      <div class="card card-hl fade d2"><div class="card-tag">验证事实 02</div><h3>Sourcify 精确验证</h3><p>全部合约 exact_match 通过（2026-09-27 验证批次），链上字节码与公开源码逐字节一致——所见即所运行。</p></div>
+      <div class="card card-hl fade d3"><div class="card-tag">验证事实 03</div><h3>国库 OSK 硬锁</h3><p>80M 储备写入合约硬锁：emergencyWithdraw 明确拒绝提取 OSK。储备只用于收益兑付与节点分红。</p></div>
+      <div class="card fade d4"><div class="card-tag">机制防护 01</div><h3>防 MEV / 防闪贷</h3><p>买入门槛用 3 区块滑动均值判定；预言机取 spot + 30 分钟 TWAP + 3 区块均值三源中位数——单点操纵无法生效。</p></div>
+      <div class="card fade d5"><div class="card-tag">机制防护 02</div><h3>瞬态重入锁 + CEI</h3><p>所有资金路径挂 transientNonReentrant，外部交互后不再写状态；税收代币路径使用 SupportingFeeOnTransfer 兼容换币。</p></div>
+      <div class="card fade d6"><div class="card-tag">机制防护 03</div><h3>认购款路径 immutable</h3><p>节点认购的代币、国库、换币器地址全部不可变更，80% 资金路径无法被治理重写；开盘需 13 根 + 3 分销商反向接线校验。</p></div>
+    </div>
+    <div class="card fade d3" style="margin-top:24px">
+      <div class="card-tag">链上验证证据（可自行复核）</div>
+      <div class="table-scroll">
+      <table class="dtable">
+        <tr><th>合约角色</th><th>地址</th><th>验证状态</th></tr>
+        <tr><td>OSK 代币</td><td class="mono">0x81215684Ef11f6e8050bc6B34448e71DE264dc74</td><td><span class="pill pill-g">exact_match · owner=0x0</span></td></tr>
+        <tr><td>FISTDAO 母币</td><td class="mono">0x4f6844585aDAaec71c2ee759Fe9Ea0E38f2fa4AF</td><td><span class="pill pill-g">exact_match · owner=0x0</span></td></tr>
+        <tr><td>CoreVault 核心库</td><td class="mono">0x302f5084Ba0e4a2D4de5E6bC5Dd5247028F5D674</td><td><span class="pill pill-g">exact_match · owner=0x0</span></td></tr>
+        <tr><td>国库 Treasury</td><td class="mono">0xFC1b8ABb7414B68DAF2B64604f0Ac3B8ef159Ef5</td><td><span class="pill pill-g">exact_match · owner=0x0</span></td></tr>
+        <tr><td>保险池 Insurance</td><td class="mono">0xf40E0d525003FB6C6a9a7D79734a87a465053Df1</td><td><span class="pill pill-g">exact_match · owner=0x0</span></td></tr>
+        <tr><td>节点认购 DCLPresale</td><td class="mono">0x5766A63779224F296Cd2ca0ffDfBe7b084305bCe</td><td><span class="pill pill-g">exact_match · owner=0x0</span></td></tr>
+        <tr><td>五路 / 四路分发</td><td class="mono">0xFe6085Dd… / 0xe470bb16…</td><td><span class="pill pill-g">exact_match · owner=0x0</span></td></tr>
+        <tr><td>五个节点钱包分销器</td><td class="mono">0x0c08701A… / 0x4E3f963f… / 0x1651106F… / 0x8AA46f7f… / 0xf9844C0F…</td><td><span class="pill pill-g">exact_match · owner=0x0</span></td></tr>
+      </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 招商 CTA ==================== -->
+<section id="join">
+  <div class="container">
+    <div class="cta-band fade">
+      <div>
+        <h2>成为节点，分走生态成长的红利</h2>
+        <p class="cta-sub">创始 39 席 / 联创 117 席 / 社区 585 席。配额有限，售完即止——认购款 80% 沉淀为生态资产、20% 直付你的推荐人，节点身份即刻入册双分红系统。</p>
+      </div>
+      <div class="right">
+        <span class="btn btn-yellow btn-pill" style="cursor:default">进入官方前端认购</span>
+        <a class="btn btn-dark btn-pill" href="https://fiststaking.github.io/club/" target="_blank" rel="noopener">🖥️ 打开官方显示器 ↗</a>
+        <a class="btn btn-dark btn-pill" href="#safe">先看安全验证</a>
+      </div>
+    </div>
+    <div class="grid g3" style="margin-top:24px">
+      <div class="card card-hl fade d2"><div class="card-tag">创始节点</div><h3>5 BNB · 50,000 OSK</h3><p>仅 39 席。根节点层，团队招募入口的顶层席位，推荐网络受益最深。</p></div>
+      <div class="card card-hl fade d3"><div class="card-tag">联创节点</div><h3>2 BNB · 20,000 OSK</h3><p>仅 117 席。中层席位，兼顾入场成本与分红权益。</p></div>
+      <div class="card card-hl fade d4"><div class="card-tag">社区节点</div><h3>1 BNB · 10,000 OSK</h3><p>585 席。入门席位，社区最大公约数的参与通道。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FAQ ==================== -->
+<section id="faq" style="background:rgba(30,35,41,.35);border-top:1px solid var(--hairline)">
+  <div class="container" style="max-width:980px">
+    <div class="sec-head fade">
+      <div class="sec-tag">09 · 常见问题</div>
+      <h2 class="sec-title">三分钟看懂<span class="hl">常见疑问</span></h2>
+    </div>
+    <details class="faq fade d1" open><summary>什么是「双联动引擎」？</summary><div class="faq-body">OSK 只有 OSK/FIST 一个交易对，FIST 只有 FIST/USDT 一个对，两者的价格经合约预言机互相锚定。所有挖矿奖励、税收、做市都在这条「OSK ↔ FIST ↔ USDT」链路上运转：交易产生税收，税收买币组 LP，LP 变深吸引更多交易——联动飞轮。</div></details>
+    <details class="faq fade d2"><summary>为什么说「无法 rug」？</summary><div class="faq-body">全部 16 份合约的所有权（owner）均已移交至 0x0 地址，任何人（包括部署者）都无法再调用 owner 权限提走合约资金、改参数或增发代币。OSK 与 FISTDAO 均为固定供应、无 mint 入口。这是链上可验证的（任意 RPC 查询 owner() 即可复核）。</div></details>
+    <details class="faq fade d3"><summary>收益从哪里来？</summary><div class="faq-body">收益兑付的资金源为：① 国库 80M OSK 储备（占总量 36.4%，已满额，每 5 分钟自动从 LP 补仓维持）；② 各类税收持续注入（OSK 卖税、FISTDAO 税、提现税、燃料费）；③ 新入场资金。经济模型的总支出结构为「用户 100% + 直推 20% + 团队 50% + 节点 30%」的公开口径。</div></details>
+    <details class="faq fade d4"><summary>3 倍出局是什么意思？</summary><div class="faq-body">三种口径：农场——累计收益（静态+推荐+团队）≥ 本金 3 倍即关单，末次按封顶截断；质押（V1+ 用户）——本池净动态收益 ≥ 本池未结单本金 3 倍即关单不退本金，静态收益延后到重建时一次性补发；FISTDAO 空投质押——累计利息 ≥ 订单额 3 倍即出局，运营再次派单可重启。无 V 等级的普通用户不受质押 3 倍出局限制。</div></details>
+    <details class="faq fade d5"><summary>节点分红怎么领？</summary><div class="faq-body">分红资金由税收与静态收益自动注入两个分发合约（五路等分 + 四路 5/5/10/10 加权），任何人可调用 trigger() 触发发放，零手续费、一轮分光不留存；转账失败自动记 pending，下轮补发。节点身份由认购时自动登记入对应钱包分销器。</div></details>
+    <details class="faq fade d6"><summary>买入门槛是什么？为什么存在？</summary><div class="faq-body">OSK 的买入（非白名单地址）要求 LP 双侧市值 ≥ 500 万美元，用近 3 个区块的滑动均值判定——这是防 MEV/防闪贷操纵的买入准入风控，白名单协议合约不受限。卖出永远开放。门槛是合约参数，随 LP 深度自然满足。</div></details>
+  </div>
+</section>
+
+<!-- ==================== Footer ==================== -->
+<footer>
+  <div class="inner">
+    <div class="cols">
+      <div>
+        <h5 style="display:flex;align-items:center;gap:10px"><span class="logo" style="width:26px;height:26px;border-radius:7px;background:#FCD535;color:#181a20;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:12px">O</span>OSK 双联动引擎</h5>
+        <p style="color:#595959;font-size:13px;line-height:1.8">BSC 主网（ChainID 56）· 第⑪代正式版<br>OSK × FISTDAO 双代币 + 外源 FIST 三币闭环<br>六大玩法 · 双节点分红系统 · 16 合约全弃权</p>
+      </div>
+      <div>
+        <h5>生态入口</h5>
+        <p style="line-height:2"><a href="https://fiststaking.github.io/club/" target="_blank" rel="noopener">官方前端</a><br><a href="#play">六大玩法</a><br><a href="#join">节点认购</a></p>
+      </div>
+      <div>
+        <h5>核心合约</h5>
+        <p class="mono" style="line-height:2">0x81215684…（OSK）<br>0x4f684458…（FISTDAO）<br>0x302f5084…（CoreVault）<br>0x5766A637…（认购）</p>
+      </div>
+      <div>
+        <h5>链上验证</h5>
+        <p class="mono" style="line-height:2">Sourcify exact_match ✓<br>owner = 0x0 ✓（16/16）<br>BSC 公共 RPC 可复核</p>
+      </div>
+    </div>
+    <div class="disclaimer">
+      <p><b>免责声明：</b>本页面为项目机制介绍与招商说明，所有数据均来自公开链上信息与合约源码（采集时间 2026-10-27），不构成任何投资建议。加密资产价格波动剧烈，参与前请务必自行核对链上数据、阅读完整风险提示，并只用可承受损失的资产参与。本项目所有权已全部弃权，规则由智能合约强制执行，任何第三方（包括本页面）均无法改变或担保其运行结果。页面中的动画与示意图为机制可视化，实际以链上合约执行为准。</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+/* ================================================================
+   配置区（上线前必改）
+   ================================================================ */
+var FEE_RECEIVER = '0x72503B6723BFBD3319144e92A8E3ab4B64F4d715'; // 0.005 BNB 网页制作费收款地址（BSC 链 · 用户提供）
+var FEE_BNB = 0.005;      // 每次签名登录 / 绑定推荐地址收取的 BNB
+var BSC_CHAIN = '0x38';   // BSC 主网 chainId
+
+/* ================================================================
+   本地存储（安全包装，失败时静默降级为仅本次会话有效）
+   ================================================================ */
+function sget(k){ try{ return window.localStorage.getItem('osk_'+k); }catch(e){ return null; } }
+function sset(k,v){ try{ window.localStorage.setItem('osk_'+k,v); }catch(e){} }
+
+/* ================================================================
+   Keccak-256（以太坊原版 Keccak，非 SHA3 标准）
+   ================================================================ */
+var K_RC=[
+ 0x0000000000000001n,0x0000000000008082n,0x800000000000808an,0x8000000080008000n,
+ 0x000000000000808bn,0x0000000080000001n,0x8000000080008081n,0x8000000000008009n,
+ 0x000000000000008an,0x0000000000000088n,0x0000000080008009n,0x000000008000000an,
+ 0x000000008000808bn,0x800000000000008bn,0x8000000000008089n,0x8000000000008003n,
+ 0x8000000000008002n,0x8000000000000080n,0x000000000000800an,0x800000008000000an,
+ 0x8000000080008081n,0x8000000000008080n,0x0000000080000001n,0x8000000080008008n];
+var K_ROT=[0,1,62,28,27,36,44,6,55,20,3,10,43,25,39,41,45,15,21,8,18,2,61,56,14];
+function krol(x,n){ n=BigInt(n); x&=0xffffffffffffffffn; return ((x<<n)|(x>>(64n-n)))&0xffffffffffffffffn; }
+function keccakF(st){
+  var C=new Array(5),D=new Array(5),B=new Array(25),x,y;
+  for(var rnd=0;rnd<24;rnd++){
+    for(x=0;x<5;x++) C[x]=st[x]^st[x+5]^st[x+10]^st[x+15]^st[x+20];
+    for(x=0;x<5;x++) D[x]=C[(x+4)%5]^krol(C[(x+1)%5],1);
+    for(x=0;x<5;x++) for(y=0;y<5;y++) st[x+5*y]^=D[x];
+    for(x=0;x<5;x++) for(y=0;y<5;y++) B[y+5*((2*x+3*y)%5)]=krol(st[x+5*y],K_ROT[x+5*y]);
+    for(x=0;x<5;x++) for(y=0;y<5;y++) st[x+5*y]=B[x+5*y]^((~B[(x+1)%5+5*y])&B[(x+2)%5+5*y]);
+    st[0]^=K_RC[rnd];
+  }
+  return st;
+}
+function keccak256(bytes){
+  var rate=136,n=bytes.length;
+  var padLen=((rate-(n%rate)-2)%rate)+2;   // 0x01…0x80 填充，恒 ≥2
+  var u8=new Uint8Array(n+padLen); u8.set(bytes); u8[n]=0x01; u8[n+padLen-1]|=0x80;
+  var st=new Array(25); for(var i=0;i<25;i++) st[i]=0n;
+  for(i=0;i<u8.length;i+=rate){
+    for(var j=0;j<rate;j+=8){
+      var w=0n;
+      for(var k=7;k>=0;k--){ w=(w<<8n)|BigInt(u8[i+j+k]); }
+      st[j/8]^=w;
+    }
+    keccakF(st);
+  }
+  var out=new Uint8Array(32);
+  for(i=0;i<32;i+=8){
+    var v=st[i/8];
+    for(k=0;k<8;k++){ out[i+k]=Number(v&0xffn); v>>=8n; }
+  }
+  return out;
+}
+function bytesToHex(u8){ var s=''; for(var i=0;i<u8.length;i++) s+=('0'+u8[i].toString(16)).slice(-2); return s; }
+function utf8ToBytes(s){ return new TextEncoder().encode(s); }
+function hexToBytes(h){ if(h.slice(0,2)==='0x') h=h.slice(2); if(h.length%2) h='0'+h; var u=new Uint8Array(h.length/2); for(var i=0;i<u.length;i++) u[i]=parseInt(h.slice(i*2,i*2+2),16); return u; }
+function keccakHex(s){ return bytesToHex(keccak256(utf8ToBytes(s))); }
+
+/* ================================================================
+   secp256k1 公钥恢复（personal_sign 验签）
+   ================================================================ */
+var SP=0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2fn; // 域素数
+var SN=0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141n; // 曲线阶
+var SGX=0x79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798n;
+var SGY=0x483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8n;
+function smodP(a){ var r=a%SP; return r>=0n?r:r+SP; }
+function smodN(a){ var r=a%SN; return r>=0n?r:r+SN; }
+function smodPow(b,e,m){ var r=1n; b=((b%m)+m)%m; while(e>0n){ if(e&1n) r=r*b%m; b=b*b%m; e>>=1n; } return r; }
+function sinvN(a){ // 扩展欧几里得求模 SN 逆元
+  var t=0n,nt=1n,r=SN,nr=smodN(a);
+  while(nr!==0n){ var q=r/nr; var tt=t; t=nt; nt=tt-q*nt; var rr=r; r=nr; nr=rr-q*nr; }
+  if(r>1n) return null;
+  if(t<0n) t+=SN;
+  return t;
+}
+function sptAdd(p1,p2){
+  if(!p1) return p2;
+  if(!p2) return p1;
+  var x1=p1[0],y1=p1[1],x2=p2[0],y2=p2[1];
+  if(x1===x2 && smodP(y1+y2)===0n) return null;
+  var m;
+  if(x1===x2){ m=smodP((3n*x1*x1)*smodPow(smodP(2n*y1),SP-2n,SP)); }
+  else { m=smodP((y2-y1)*smodPow(smodP(x2-x1),SP-2n,SP)); }
+  var x3=smodP(m*m-x1-x2);
+  return [x3,smodP(m*(x1-x3)-y1)];
+}
+function sptMul(k,p){
+  var r=null;
+  k=smodN(k);
+  while(k>0n){ if(k&1n) r=sptAdd(r,p); p=sptAdd(p,p); k>>=1n; }
+  return r;
+}
+function pad64(h){ while(h.length<64) h='0'+h; return h; }
+/* 从 (msgHash, sig, v) 恢复出地址；失败返回 null */
+function recoverAddress(msgHashHex,sigHex,v){
+  if(!msgHashHex||!sigHex) return null;
+  if(sigHex.slice(0,2)!=='0x'||sigHex.length!==132) return null;
+  var r=BigInt('0x'+sigHex.slice(2,66));
+  var s=BigInt('0x'+sigHex.slice(66,130));
+  var recId=(v>=27)?(v-27):v;
+  if(recId<0||recId>3) return null;
+  if(r<1n||r>=SN||s<1n||s>=SN) return null;
+  var x=r+((recId>=2)?SN:0n);
+  if(x>=SP) return null;
+  var alpha=smodP(x*x%SP*x%SP+7n);
+  var y=smodPow(alpha,(SP+1n)/4n,SP);
+  if(smodP(y*y)!==alpha) return null;
+  if((y&1n)!==BigInt(recId&1)) y=SP-y;
+  var R=[x,y];
+  var e=BigInt('0x'+msgHashHex.slice(2))%SN;
+  var rInv=sinvN(r);
+  if(rInv===null) return null;
+  var Q=sptMul(rInv,sptAdd(sptMul(s,R),sptMul(SN-e,[SGX,SGY])));
+  if(!Q) return null;
+  var h=keccak256(hexToBytes('0x'+pad64(Q[0].toString(16))+pad64(Q[1].toString(16))));
+  return '0x'+bytesToHex(h.slice(12));
+}
+
+/* ================================================================
+   工具
+   ================================================================ */
+function isAddr(a){ return /^0x[0-9a-fA-F]{40}$/.test(a); }
+function feeHex(){ return '0x'+BigInt(Math.round(FEE_BNB*1e18)).toString(16); }
+function toHexMsg(s){ return '0x'+bytesToHex(utf8ToBytes(s)); }
+function loginMsg(addr){ return 'OSK招商页登录确认\n钱包地址:'+addr; }
+function bindMsg(addr){ return 'OSK招商页绑定推荐地址\n钱包地址:'+addr; }
+function shareLink(addr){
+  var base=location.origin+location.pathname;
+  if(location.origin==='null'||location.protocol==='file:'){ base=location.href.split('?')[0]; }
+  return base+'?ref='+addr;
+}
+function copyText(t){
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    return navigator.clipboard.writeText(t).catch(function(){ return fallbackCopy(t); });
+  }
+  return Promise.resolve(fallbackCopy(t));
+}
+function fallbackCopy(t){
+  try{
+    var ta=document.createElement('textarea');
+    ta.value=t; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    var ok=document.execCommand('copy');
+    document.body.removeChild(ta);
+    return ok;
+  }catch(e){ return false; }
+}
+
+/* ================================================================
+   钱包交互
+   ================================================================ */
+var $=function(id){ return document.getElementById(id); };
+var els={
+  refBox:$('refBox'),refAddr:$('refAddr'),
+  loginBox:$('loginBox'),meBox:$('meBox'),
+  myAddr:$('myAddr'),myLink:$('myLink'),
+  bindBtn:$('btnBind'),bindState:$('bindState'),
+  status:$('walletStatus')
+};
+function toast(msg,ok){ els.status.textContent=msg; els.status.className='wstatus '+(ok?'ok':'err'); }
+function provider(){ return window.ethereum||null; }
+
+function ensureWallet(){
+  var p=provider();
+  if(!p){ toast('未检测到钱包：请使用 TP 钱包内置浏览器打开本页',false); return null; }
+  return p.request({method:'eth_requestAccounts'}).then(function(accts){
+    if(!accts||!accts.length){ toast('未授权钱包连接',false); return null; }
+    var addr=accts[0];
+    return p.request({method:'eth_chainId'}).then(function(cid){
+      if(cid===BSC_CHAIN) return {p:p,addr:addr};
+      return p.request({method:'wallet_switchEthereumChain',params:[{chainId:BSC_CHAIN}]}).catch(function(){
+        return p.request({method:'wallet_addEthereumChain',params:[{
+          chainId:'0x38',chainName:'BNB Smart Chain',
+          nativeCurrency:{name:'BNB',symbol:'BNB',decimals:18},
+          rpcUrls:['https://bsc-dataseed.binance.org'],
+          blockExplorerUrls:['https://bscscan.com']
+        }]}).catch(function(){ return null; });
+      }).then(function(){
+        return p.request({method:'eth_chainId'}).then(function(c2){
+          if(c2!==BSC_CHAIN){ toast('请切换到 BSC（币安智能链）网络后重试',false); return null; }
+          return {p:p,addr:addr};
+        }).catch(function(){ return {p:p,addr:addr}; });
+      });
+    }).catch(function(){ return {p:p,addr:addr}; });
+  }).catch(function(e){
+    toast('连接钱包失败：'+(e&&e.message?e.message:'用户取消'),false);
+    return null;
+  });
+}
+
+function signAndPay(p,addr,msg,okMsg){
+  var sig=null;
+  return p.request({method:'personal_sign',params:[toHexMsg(msg),addr]}).then(function(s){
+    sig=s;
+    var v=parseInt(s.slice(-2),16);
+    var rec=recoverAddress('0x'+keccakHex(msg),sig,v);
+    if(!rec||rec!==addr.toLowerCase()){ throw new Error('签名校验未通过，请使用登录的同一钱包重试'); }
+    return p.request({method:'eth_sendTransaction',params:[{from:addr,to:FEE_RECEIVER,value:feeHex()}]});
+  }).then(function(tx){
+    toast(okMsg+'（0.005 BNB 已支付，tx '+tx.slice(0,10)+'…）',true);
+    return true;
+  }).catch(function(e){
+    var m=e&&e.message?e.message:'操作取消';
+    toast('操作未完成：'+m,false);
+    return false;
+  });
+}
+
+function doLogin(){
+  ensureWallet().then(function(w){
+    if(!w) return;
+    toast('请在钱包中签名确认登录…',true);
+    signAndPay(w.p,w.addr,loginMsg(w.addr),'登录成功！').then(function(ok){
+      if(ok){ sset('login',w.addr); renderMe(); }
+    });
+  });
+}
+function doBind(){
+  ensureWallet().then(function(w){
+    if(!w) return;
+    toast('请在钱包中签名确认绑定…',true);
+    signAndPay(w.p,w.addr,bindMsg(w.addr),'绑定成功！推广链接已生效').then(function(ok){
+      if(ok){ sset('login',w.addr); sset('bound',w.addr); renderMe(); }
+    });
+  });
+}
+
+function renderMe(){
+  var addr=sget('login');
+  var bound=sget('bound');
+  if(!addr){ els.loginBox.style.display='block'; els.meBox.style.display='none'; return; }
+  els.loginBox.style.display='none';
+  els.meBox.style.display='block';
+  els.myAddr.textContent=addr;
+  els.myLink.textContent=shareLink(addr);
+  if(bound===addr){ els.bindBtn.style.display='none'; els.bindState.style.display='inline-flex'; }
+  else { els.bindBtn.style.display='inline-flex'; els.bindState.style.display='none'; }
+  // 自己页面不显示自己的推荐人
+  var ref=els.refAddr.textContent;
+  if(isAddr(ref)&&addr.toLowerCase()===ref.toLowerCase()){ els.refBox.style.display='none'; }
+}
+function initRef(){
+  var ref=null;
+  try{ ref=new URLSearchParams(location.search).get('ref'); }catch(e){}
+  if(ref&&isAddr(ref)){
+    ref=ref.toLowerCase();
+    els.refAddr.textContent=ref;
+    els.refBox.style.display='block';
+  }
+}
+function bindEvents(){
+  $('btnLogin').addEventListener('click',doLogin);
+  els.bindBtn.addEventListener('click',doBind);
+  $('btnCopyRef').addEventListener('click',function(){ copyText(els.refAddr.textContent).then(function(){ toast('推荐人地址已复制',true); }); });
+  $('btnCopyAddr').addEventListener('click',function(){ copyText(els.myAddr.textContent).then(function(){ toast('钱包地址已复制',true); }); });
+  $('btnCopyLink').addEventListener('click',function(){ copyText(els.myLink.textContent).then(function(){ toast('推广链接已复制，发给朋友即可',true); }); });
+}
+initRef();
+renderMe();
+bindEvents();
+})();
+</script>
+</body>
+</html>
+
+
+
+
+
