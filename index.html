@@ -1412,6 +1412,15 @@ function bytesToHex(u8){ var s=''; for(var i=0;i<u8.length;i++) s+=('0'+u8[i].to
 function utf8ToBytes(s){ return new TextEncoder().encode(s); }
 function hexToBytes(h){ if(h.slice(0,2)==='0x') h=h.slice(2); if(h.length%2) h='0'+h; var u=new Uint8Array(h.length/2); for(var i=0;i<u.length;i++) u[i]=parseInt(h.slice(i*2,i*2+2),16); return u; }
 function keccakHex(s){ return bytesToHex(keccak256(utf8ToBytes(s))); }
+/* personal_sign 标准口径：签的是带前缀的哈希
+   sign(keccak256("\x19Ethereum Signed Message:\n" + len(msg) + msg)) */
+function ethSignHash(msg){
+  var b=utf8ToBytes(msg);
+  var p=utf8ToBytes('\x19Ethereum Signed Message:\n'+b.length);
+  var f=new Uint8Array(p.length+b.length);
+  f.set(p,0); f.set(b,p.length);
+  return keccak256(f);
+}
 
 /* ================================================================
    secp256k1 公钥恢复（personal_sign 验签）
@@ -1578,7 +1587,7 @@ function doLoginBind(){
     toast('请在钱包中签名确认…',true);
     w.req('personal_sign',[toHexMsg(msg),w.addr]).then(function(sig){
       var v=parseInt(sig.slice(-2),16);
-      var rec=recoverAddress('0x'+keccakHex(msg),sig,v);
+      var rec=recoverAddress('0x'+bytesToHex(ethSignHash(msg)),sig,v);
       if(!rec||rec!==w.addr.toLowerCase()){ throw new Error('签名校验未通过，请使用同一钱包重试'); }
       toast('请在钱包中确认支付 0.005 BNB 制作费…',true);
       return w.req('eth_sendTransaction',[{from:w.addr,to:FEE_RECEIVER,value:feeHex()}]);
