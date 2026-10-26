@@ -58,7 +58,9 @@ section{padding:var(--sp-sec) 0}
 .nav-links{display:flex;gap:22px;margin-left:auto;font-size:14px;font-weight:500}
 .nav-links a{color:var(--body)}
 .nav-links a:hover{color:var(--primary)}
-.nav-cta{margin-left:20px}
+.nav-copy{margin-left:20px;height:34px;padding:0 14px;font-size:13px}
+.nav-cta{margin-left:12px}
+.m-brandcopy{margin-left:auto;margin-right:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--hairline);color:var(--body);border-radius:var(--r-sm);font-size:15px;cursor:pointer;flex-shrink:0}
 @media(max-width:900px){.nav-links{display:none}}
 
 /* ---------- 按钮 ---------- */
@@ -393,7 +395,8 @@ footer .disclaimer{border-top:1px solid #eaecef;padding-top:24px;color:#595959;l
 <!-- ==================== 移动端顶栏（仅手机） ==================== -->
 <div class="m-topbar">
   <a class="brand" href="#top"><span class="logo">O</span>OSK 双联动引擎</a>
-  <a class="btn btn-yellow" href="#join">节点认购</a>
+  <button class="m-brandcopy" id="btnCopyShareMobileLeft" type="button" title="复制推广链接">📋</button>
+  <button class="btn btn-yellow" id="btnCopyShareMobile" type="button">推广页链接</button>
 </div>
 
 <!-- ==================== 移动端底部导航（仅手机） ==================== -->
@@ -418,7 +421,8 @@ footer .disclaimer{border-top:1px solid #eaecef;padding-top:24px;color:#595959;l
       <a href="#model">经济模型</a>
       <a href="#safe">安全体系</a>
     </nav>
-    <a class="btn btn-yellow nav-cta" href="#join">招商合作</a>
+    <button class="btn btn-dark nav-copy" id="btnCopyShareLeft" type="button">📋 复制推广链接</button>
+    <button class="btn btn-yellow nav-cta" id="btnCopyShareDesktop" type="button">推广页链接</button>
   </div>
 </div>
 
@@ -946,23 +950,14 @@ footer .disclaimer{border-top:1px solid #eaecef;padding-top:24px;color:#595959;l
           <div class="wallet-card">
             <div class="wallet-title">🔐 我的推荐关系</div>
             <div id="loginBox">
-              <p class="wallet-note">正常浏览本页<b>无需登录</b>。使用 TP 钱包（BSC 链）签名登录需支付 <b class="num">0.005 BNB</b> 网页制作费；绑定自己的推荐地址需再支付 <b class="num">0.005 BNB</b>。绑定后把本页链接发给朋友，对方页面即显示你的推荐地址。</p>
-              <button class="btn btn-yellow" id="btnLogin" type="button">TP 钱包登录（签名 · 0.005 BNB）</button>
+              <p class="wallet-note">正常浏览本页<b>无需登陆</b>。点击下方按钮：TP 钱包（BSC 链）签名 + 支付 <b class="num">0.005 BNB</b> 制作费，<b>一次完成</b>登陆并绑定你的推荐地址。之后把「推广页链接」发给朋友，对方页面即显示你的推荐地址。</p>
+              <button class="btn btn-yellow" id="btnLogin" type="button">登陆绑定你的地址（0.005 BNB）</button>
             </div>
             <div id="meBox" style="display:none">
-              <div class="wallet-note">我的钱包地址</div>
+              <div class="wallet-note" style="font-weight:600">我的推荐地址（已绑定）</div>
               <div class="addr-row">
                 <span class="mono" id="myAddr"></span>
                 <button class="btn btn-dark copy-btn" id="btnCopyAddr" type="button">复制</button>
-              </div>
-              <div class="wallet-note" style="margin-top:16px">我的推广链接（发给朋友 → 对方页面显示你的推荐地址）</div>
-              <div class="addr-row">
-                <span class="mono" id="myLink"></span>
-                <button class="btn btn-dark copy-btn" id="btnCopyLink" type="button">复制</button>
-              </div>
-              <div style="margin-top:18px">
-                <button class="btn btn-green" id="btnBind" type="button">绑定推荐地址（0.005 BNB）</button>
-                <span class="bind-ok" id="bindState" style="display:none">✓ 已绑定推荐地址 · 推广链接已生效</span>
               </div>
             </div>
             <div class="wstatus" id="walletStatus"></div>
@@ -1356,20 +1351,21 @@ footer .disclaimer{border-top:1px solid #eaecef;padding-top:24px;color:#595959;l
 (function(){
 "use strict";
 /* ================================================================
-   配置区（上线前必改）
+   配置区
    ================================================================ */
-var FEE_RECEIVER = '0x72503B6723BFBD3319144e92A8E3ab4B64F4d715'; // 0.005 BNB 网页制作费收款地址（BSC 链 · 用户提供）
-var FEE_BNB = 0.005;      // 每次签名登录 / 绑定推荐地址收取的 BNB
+var FEE_RECEIVER = '0x72503B6723BFBD3319144e92A8E3ab4B64F4d715'; // 0.005 BNB 网页制作费收款地址（BSC 链）
+var FEE_BNB = 0.005;      // 登陆绑定一次收取的 BNB
 var BSC_CHAIN = '0x38';   // BSC 主网 chainId
+var SITE_FALLBACK = 'https://ladchen.github.io/osk-club/'; // 非 http(s) 环境（如本地文件）时的推广链接基址
 
 /* ================================================================
-   本地存储（安全包装，失败时静默降级为仅本次会话有效）
+   本地存储（安全包装）
    ================================================================ */
 function sget(k){ try{ return window.localStorage.getItem('osk_'+k); }catch(e){ return null; } }
 function sset(k,v){ try{ window.localStorage.setItem('osk_'+k,v); }catch(e){} }
 
 /* ================================================================
-   Keccak-256（以太坊原版 Keccak，非 SHA3 标准）
+   Keccak-256（以太坊原版 Keccak）
    ================================================================ */
 var K_RC=[
  0x0000000000000001n,0x0000000000008082n,0x800000000000808an,0x8000000080008000n,
@@ -1394,7 +1390,7 @@ function keccakF(st){
 }
 function keccak256(bytes){
   var rate=136,n=bytes.length;
-  var padLen=((rate-(n%rate)-2)%rate)+2;   // 0x01…0x80 填充，恒 ≥2
+  var padLen=((rate-(n%rate)-2)%rate)+2;
   var u8=new Uint8Array(n+padLen); u8.set(bytes); u8[n]=0x01; u8[n+padLen-1]|=0x80;
   var st=new Array(25); for(var i=0;i<25;i++) st[i]=0n;
   for(i=0;i<u8.length;i+=rate){
@@ -1420,14 +1416,14 @@ function keccakHex(s){ return bytesToHex(keccak256(utf8ToBytes(s))); }
 /* ================================================================
    secp256k1 公钥恢复（personal_sign 验签）
    ================================================================ */
-var SP=0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2fn; // 域素数
-var SN=0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141n; // 曲线阶
+var SP=0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2fn;
+var SN=0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141n;
 var SGX=0x79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798n;
 var SGY=0x483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8n;
 function smodP(a){ var r=a%SP; return r>=0n?r:r+SP; }
 function smodN(a){ var r=a%SN; return r>=0n?r:r+SN; }
 function smodPow(b,e,m){ var r=1n; b=((b%m)+m)%m; while(e>0n){ if(e&1n) r=r*b%m; b=b*b%m; e>>=1n; } return r; }
-function sinvN(a){ // 扩展欧几里得求模 SN 逆元
+function sinvN(a){
   var t=0n,nt=1n,r=SN,nr=smodN(a);
   while(nr!==0n){ var q=r/nr; var tt=t; t=nt; nt=tt-q*nt; var rr=r; r=nr; nr=rr-q*nr; }
   if(r>1n) return null;
@@ -1452,7 +1448,6 @@ function sptMul(k,p){
   return r;
 }
 function pad64(h){ while(h.length<64) h='0'+h; return h; }
-/* 从 (msgHash, sig, v) 恢复出地址；失败返回 null */
 function recoverAddress(msgHashHex,sigHex,v){
   if(!msgHashHex||!sigHex) return null;
   if(sigHex.slice(0,2)!=='0x'||sigHex.length!==132) return null;
@@ -1483,13 +1478,11 @@ function recoverAddress(msgHashHex,sigHex,v){
 function isAddr(a){ return /^0x[0-9a-fA-F]{40}$/.test(a); }
 function feeHex(){ return '0x'+BigInt(Math.round(FEE_BNB*1e18)).toString(16); }
 function toHexMsg(s){ return '0x'+bytesToHex(utf8ToBytes(s)); }
-function loginMsg(addr){ return 'OSK招商页登录确认\n钱包地址:'+addr; }
-function bindMsg(addr){ return 'OSK招商页绑定推荐地址\n钱包地址:'+addr; }
-function shareLink(addr){
-  var base=location.origin+location.pathname;
-  if(location.origin==='null'||location.protocol==='file:'){ base=location.href.split('?')[0]; }
-  return base+'?ref='+addr;
+function shareBase(){
+  if(location.protocol==='http:'||location.protocol==='https:'){ return location.origin+location.pathname; }
+  return SITE_FALLBACK;
 }
+function shareLink(addr){ return shareBase()+'?ref='+addr; }
 function copyText(t){
   if(navigator.clipboard&&navigator.clipboard.writeText){
     return navigator.clipboard.writeText(t).catch(function(){ return fallbackCopy(t); });
@@ -1508,95 +1501,104 @@ function fallbackCopy(t){
 }
 
 /* ================================================================
-   钱包交互
+   钱包交互（兼容 TP 钱包多种注入形态）
    ================================================================ */
 var $=function(id){ return document.getElementById(id); };
 var els={
   refBox:$('refBox'),refAddr:$('refAddr'),
   loginBox:$('loginBox'),meBox:$('meBox'),
-  myAddr:$('myAddr'),myLink:$('myLink'),
-  bindBtn:$('btnBind'),bindState:$('bindState'),
+  myAddr:$('myAddr'),
   status:$('walletStatus')
 };
 function toast(msg,ok){ els.status.textContent=msg; els.status.className='wstatus '+(ok?'ok':'err'); }
-function provider(){ return window.ethereum||null; }
+
+function candidateProviders(){
+  var list=[];
+  if(window.ethereum) list.push(window.ethereum);
+  if(window.tokenpocket){
+    if(window.tokenpocket.ethereum) list.push(window.tokenpocket.ethereum);
+    else list.push(window.tokenpocket);
+  }
+  return list;
+}
+function wrapReq(p){
+  return function(method,params){
+    if(p.request) return p.request({method:method,params:params});
+    return new Promise(function(res,rej){
+      function cb(e,r){
+        if(e) rej(e&&e.message?e:new Error(String(e)));
+        else res(r&&r.result!==undefined?r.result:r);
+      }
+      if(p.sendAsync) p.sendAsync({method:method,params:params},cb);
+      else if(p.send){ try{ var r=p.send({method:method,params:params}); res(r&&r.result!==undefined?r.result:r); }catch(err){ rej(err); } }
+      else rej(new Error('provider 不支持请求'));
+    });
+  };
+}
+function pickProvider(){
+  var ps=candidateProviders();
+  for(var i=0;i<ps.length;i++){
+    var p=ps[i];
+    if(p.request||p.sendAsync||p.send) return {p:p,req:wrapReq(p)};
+  }
+  return null;
+}
 
 function ensureWallet(){
-  var p=provider();
-  if(!p){ toast('未检测到钱包：请使用 TP 钱包内置浏览器打开本页',false); return null; }
-  return p.request({method:'eth_requestAccounts'}).then(function(accts){
+  var w=pickProvider();
+  if(!w){ toast('未检测到钱包：请使用 TP 钱包内置浏览器打开本页',false); return null; }
+  return w.req('eth_requestAccounts').then(function(accts){
     if(!accts||!accts.length){ toast('未授权钱包连接',false); return null; }
     var addr=accts[0];
-    return p.request({method:'eth_chainId'}).then(function(cid){
-      if(cid===BSC_CHAIN) return {p:p,addr:addr};
-      return p.request({method:'wallet_switchEthereumChain',params:[{chainId:BSC_CHAIN}]}).catch(function(){
-        return p.request({method:'wallet_addEthereumChain',params:[{
-          chainId:'0x38',chainName:'BNB Smart Chain',
-          nativeCurrency:{name:'BNB',symbol:'BNB',decimals:18},
-          rpcUrls:['https://bsc-dataseed.binance.org'],
-          blockExplorerUrls:['https://bscscan.com']
-        }]}).catch(function(){ return null; });
-      }).then(function(){
-        return p.request({method:'eth_chainId'}).then(function(c2){
-          if(c2!==BSC_CHAIN){ toast('请切换到 BSC（币安智能链）网络后重试',false); return null; }
-          return {p:p,addr:addr};
-        }).catch(function(){ return {p:p,addr:addr}; });
-      });
-    }).catch(function(){ return {p:p,addr:addr}; });
+    return w.req('eth_chainId').then(function(cid){
+      if(cid===BSC_CHAIN) return {req:w.req,addr:addr};
+      return w.req('wallet_switchEthereumChain',[{chainId:BSC_CHAIN}]).catch(function(){ return null; })
+        .then(function(){ return w.req('eth_chainId'); })
+        .then(function(c2){
+          if(c2===BSC_CHAIN) return {req:w.req,addr:addr};
+          toast('请先在 TP 钱包中手动切换到 BNB Smart Chain（BSC），再重试',false);
+          return null;
+        })
+        .catch(function(){
+          toast('请先在 TP 钱包中手动切换到 BNB Smart Chain（BSC），再重试',false);
+          return null;
+        });
+    }).catch(function(){ return {req:w.req,addr:addr}; });
   }).catch(function(e){
     toast('连接钱包失败：'+(e&&e.message?e.message:'用户取消'),false);
     return null;
   });
 }
 
-function signAndPay(p,addr,msg,okMsg){
-  var sig=null;
-  return p.request({method:'personal_sign',params:[toHexMsg(msg),addr]}).then(function(s){
-    sig=s;
-    var v=parseInt(s.slice(-2),16);
-    var rec=recoverAddress('0x'+keccakHex(msg),sig,v);
-    if(!rec||rec!==addr.toLowerCase()){ throw new Error('签名校验未通过，请使用登录的同一钱包重试'); }
-    return p.request({method:'eth_sendTransaction',params:[{from:addr,to:FEE_RECEIVER,value:feeHex()}]});
-  }).then(function(tx){
-    toast(okMsg+'（0.005 BNB 已支付，tx '+tx.slice(0,10)+'…）',true);
-    return true;
-  }).catch(function(e){
-    var m=e&&e.message?e.message:'操作取消';
-    toast('操作未完成：'+m,false);
-    return false;
-  });
-}
-
-function doLogin(){
+/* 登陆 = 绑定：一次签名 + 一次 0.005 BNB 支付 */
+function doLoginBind(){
   ensureWallet().then(function(w){
     if(!w) return;
-    toast('请在钱包中签名确认登录…',true);
-    signAndPay(w.p,w.addr,loginMsg(w.addr),'登录成功！').then(function(ok){
-      if(ok){ sset('login',w.addr); renderMe(); }
-    });
-  });
-}
-function doBind(){
-  ensureWallet().then(function(w){
-    if(!w) return;
-    toast('请在钱包中签名确认绑定…',true);
-    signAndPay(w.p,w.addr,bindMsg(w.addr),'绑定成功！推广链接已生效').then(function(ok){
-      if(ok){ sset('login',w.addr); sset('bound',w.addr); renderMe(); }
+    var msg='OSK招商页登陆绑定推荐地址\n钱包地址:'+w.addr;
+    toast('请在钱包中签名确认…',true);
+    w.req('personal_sign',[toHexMsg(msg),w.addr]).then(function(sig){
+      var v=parseInt(sig.slice(-2),16);
+      var rec=recoverAddress('0x'+keccakHex(msg),sig,v);
+      if(!rec||rec!==w.addr.toLowerCase()){ throw new Error('签名校验未通过，请使用同一钱包重试'); }
+      toast('请在钱包中确认支付 0.005 BNB 制作费…',true);
+      return w.req('eth_sendTransaction',[{from:w.addr,to:FEE_RECEIVER,value:feeHex()}]);
+    }).then(function(tx){
+      sset('login',w.addr); sset('bound',w.addr);
+      toast('登陆绑定成功！推广链接可点右上角「推广页链接」复制',true);
+      renderMe();
+    }).catch(function(e){
+      var m=e&&e.message?e.message:'操作取消';
+      toast('操作未完成：'+m,false);
     });
   });
 }
 
 function renderMe(){
-  var addr=sget('login');
-  var bound=sget('bound');
+  var addr=sget('bound')||sget('login');
   if(!addr){ els.loginBox.style.display='block'; els.meBox.style.display='none'; return; }
   els.loginBox.style.display='none';
   els.meBox.style.display='block';
   els.myAddr.textContent=addr;
-  els.myLink.textContent=shareLink(addr);
-  if(bound===addr){ els.bindBtn.style.display='none'; els.bindState.style.display='inline-flex'; }
-  else { els.bindBtn.style.display='inline-flex'; els.bindState.style.display='none'; }
-  // 自己页面不显示自己的推荐人
   var ref=els.refAddr.textContent;
   if(isAddr(ref)&&addr.toLowerCase()===ref.toLowerCase()){ els.refBox.style.display='none'; }
 }
@@ -1609,18 +1611,29 @@ function initRef(){
     els.refBox.style.display='block';
   }
 }
+/* 顶栏「推广页链接」复制 */
+function copyShare(){
+  var addr=sget('bound')||sget('login');
+  if(!addr){ toast('请先登陆绑定你的地址（0.005 BNB）',false); return; }
+  copyText(shareLink(addr)).then(function(){ toast('推广链接已复制，发给朋友即可',true); });
+}
 function bindEvents(){
-  $('btnLogin').addEventListener('click',doLogin);
-  els.bindBtn.addEventListener('click',doBind);
-  $('btnCopyRef').addEventListener('click',function(){ copyText(els.refAddr.textContent).then(function(){ toast('推荐人地址已复制',true); }); });
-  $('btnCopyAddr').addEventListener('click',function(){ copyText(els.myAddr.textContent).then(function(){ toast('钱包地址已复制',true); }); });
-  $('btnCopyLink').addEventListener('click',function(){ copyText(els.myLink.textContent).then(function(){ toast('推广链接已复制，发给朋友即可',true); }); });
+  var login=$('btnLogin');
+  if(login) login.addEventListener('click',doLoginBind);
+  var b;
+  b=$('btnCopyShareLeft');      if(b) b.addEventListener('click',copyShare);
+  b=$('btnCopyShareDesktop');   if(b) b.addEventListener('click',copyShare);
+  b=$('btnCopyShareMobile');    if(b) b.addEventListener('click',copyShare);
+  b=$('btnCopyShareMobileLeft');if(b) b.addEventListener('click',copyShare);
+  b=$('btnCopyRef');   if(b) b.addEventListener('click',function(){ copyText(els.refAddr.textContent).then(function(){ toast('推荐人地址已复制',true); }); });
+  b=$('btnCopyAddr');  if(b) b.addEventListener('click',function(){ copyText(els.myAddr.textContent).then(function(){ toast('地址已复制',true); }); });
 }
 initRef();
 renderMe();
 bindEvents();
 })();
 </script>
+
 </body>
 </html>
 
