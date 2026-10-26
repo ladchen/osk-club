@@ -967,6 +967,11 @@ footer .disclaimer{border-top:1px solid #eaecef;padding-top:24px;color:#595959;l
               </div>
             </div>
             <div class="wstatus" id="walletStatus"></div>
+            <div id="adminBox" style="display:none;margin-top:16px;border-top:1px solid var(--hairline);padding-top:16px">
+              <div class="wallet-note" style="font-weight:600">🛠 管理员 · 付费验证合约</div>
+              <div class="wallet-note" id="regStatus"></div>
+              <button class="btn btn-yellow" id="btnDeployReg" type="button">部署验证合约</button>
+            </div>
           </div>
         </div>
       </div>
@@ -1363,6 +1368,17 @@ var FEE_RECEIVER = '0x72503B6723BFBD3319144e92A8E3ab4B64F4d715'; // 0.005 BNB �
 var FEE_BNB = 0.005;      // 登陆绑定一次收取的 BNB
 var BSC_CHAIN = '0x38';   // BSC 主网 chainId
 var SITE_FALLBACK = 'https://ladchen.github.io/osk-club/'; // 非 http(s) 环境（如本地文件）时的推广链接基址
+/* ============ 付费验证合约（防止伪造 ?ref= 地址） ============ */
+var REG_BYTECODE = '0x60a060405234801561000f575f80fd5b5060405161049238038061049283398101604081905261002e9161003f565b6001600160a01b031660805261006c565b5f6020828403121561004f575f80fd5b81516001600160a01b0381168114610065575f80fd5b9392505050565b6080516104016100915f395f818160db0152818161023a01526102f901526104015ff3fe60806040526004361061004c575f3560e01c80630f6639e5146101835780631b9265b8146101c15780636ded82f8146101c957806376c7a3c71461020f5780638da5cb5b14610229575f80fd5b3661017f576611c37937e080003410156100935760405162461bcd60e51b815260206004820152600360248201526266656560e81b60448201526064015b60405180910390fd5b335f8181526020818152604091829020429081905591519182527f737c69225d647e5994eab1a6c301bf6d9232beb2759ae1e27a8966b4732bc489910160405180910390a25f7f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316346040515f6040518083038185875af1925050503d805f8114610141576040519150601f19603f3d011682016040523d82523d5f602084013e610146565b606091505b505090508061017d5760405162461bcd60e51b8152602060048201526003602482015262199dd960ea1b604482015260640161008a565b005b5f80fd5b34801561018e575f80fd5b506101ae61019d36600461039e565b5f6020819052908152604090205481565b6040519081526020015b60405180910390f35b61017d610274565b3480156101d4575f80fd5b506101ff6101e336600461039e565b6001600160a01b03165f90815260208190526040902054151590565b60405190151581526020016101b8565b34801561021a575f80fd5b506101ae6611c37937e0800081565b348015610234575f80fd5b5061025c7f000000000000000000000000000000000000000000000000000000000000000081565b6040516001600160a01b0390911681526020016101b8565b6611c37937e080003410156102b15760405162461bcd60e51b815260206004820152600360248201526266656560e81b604482015260640161008a565b335f8181526020818152604091829020429081905591519182527f737c69225d647e5994eab1a6c301bf6d9232beb2759ae1e27a8966b4732bc489910160405180910390a25f7f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316346040515f6040518083038185875af1925050503d805f811461035f576040519150601f19603f3d011682016040523d82523d5f602084013e610364565b606091505b505090508061039b5760405162461bcd60e51b8152602060048201526003602482015262199dd960ea1b604482015260640161008a565b50565b5f602082840312156103ae575f80fd5b81356001600160a01b03811681146103c4575f80fd5b939250505056fea26469706673582212203eae23e0f7a1721231ce35a0afec34934c769761105212969ce994607b315b9164736f6c63430008180033';  // RefRegistry 合约字节码（solc 0.8.24 编译，含 receive() 兜底）
+var REG_OWNER = FEE_RECEIVER;          // 合约收款人 = 网页制作费收款地址
+var REGISTRY_FALLBACK = '';            // ← 用户部署合约后，由开发者把合约地址写死填入（如 '0x…'）
+var SEL_ISPAID = '0x6ded82f8';         // isPaid(address)
+var RPC_LIST = ['https://bsc.publicnode.com','https://bsc-dataseed1.bnbchain.org','https://bsc-dataseed2.bnbchain.org'];
+function registryAddr(){
+  try{ var l=window.localStorage.getItem('osk_registry'); if(l&&isAddr(l)) return l; }catch(e){}
+  return REGISTRY_FALLBACK;
+}
+function padAddr64(a){ return a.toLowerCase().slice(2).padStart(64,'0'); }
 
 /* ================================================================
    本地存储（安全包装）
@@ -1595,8 +1611,11 @@ function doLoginBind(){
       var v=parseInt(sig.slice(-2),16);
       var rec=recoverAddress('0x'+bytesToHex(ethSignHash(msg)),sig,v);
       if(!rec||rec!==w.addr.toLowerCase()){ throw new Error('签名校验未通过，请使用同一钱包重试'); }
+      var reg=registryAddr();
+      var tx={from:w.addr,value:feeHex()};
+      if(reg){ tx.to=reg; } else { tx.to=FEE_RECEIVER; }
       toast('请在钱包中确认支付 0.005 BNB 制作费…',true);
-      return w.req('eth_sendTransaction',[{from:w.addr,to:FEE_RECEIVER,value:feeHex()}]);
+      return w.req('eth_sendTransaction',[tx]);
     }).then(function(tx){
       sset('login',w.addr); sset('bound',w.addr);
       toast('登陆绑定成功！推广链接可点右上角「推广页链接」复制',true);
@@ -1620,14 +1639,88 @@ function renderMe(){
   var ref=els.refAddr.textContent;
   if(isAddr(ref)&&addr.toLowerCase()===ref.toLowerCase()){ els.refBox.style.display='none'; }
 }
+/* RPC 链上验证（浏览器跨域可用，已实测 CORS） */
+function rpcFetch(method,params){
+  var body=JSON.stringify({jsonrpc:'2.0',id:1,method:method,params:params||[]});
+  var idx=0;
+  function attempt(){
+    if(idx>=RPC_LIST.length) return Promise.reject(new Error('RPC 不可用'));
+    var url=RPC_LIST[idx++];
+    return fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:body}).then(function(r){ return r.json(); }).then(function(j){
+      if(j&&j.result!==undefined&&j.result!==null) return j.result;
+      throw new Error('RPC '+url+' 无结果');
+    }).catch(function(e){ if(idx>=RPC_LIST.length) throw e; return attempt(); });
+  }
+  return attempt();
+}
+function isPaidOnChain(addr){
+  var reg=registryAddr();
+  if(!reg) return Promise.resolve(false);
+  var data=SEL_ISPAID+padAddr64(addr);
+  var w=pickProvider();
+  var viaWallet=w? w.req('eth_call',[{to:reg,data:data},'latest']).catch(function(){ return null; }) : Promise.resolve(null);
+  return viaWallet.then(function(r){
+    if(r) return (r.length>2 && parseInt(r.slice(-2),16)===1);
+    return rpcFetch('eth_call',[{to:reg,data:data},'latest']).then(function(r2){
+      return (r2&&r2.length>2&&parseInt(r2.slice(-2),16)===1);
+    }).catch(function(){ return false; });
+  });
+}
+function showRef(ref){
+  els.refAddr.textContent=ref;
+  els.refBox.style.display='block';
+}
+/* 推荐地址展示：必须通过链上付费验证（fail-closed，防伪造链接） */
 function initRef(){
   var ref=null;
   try{ ref=new URLSearchParams(location.search).get('ref'); }catch(e){}
-  if(ref&&isAddr(ref)){
-    ref=ref.toLowerCase();
-    els.refAddr.textContent=ref;
-    els.refBox.style.display='block';
-  }
+  if(!ref||!isAddr(ref)) return;
+  ref=ref.toLowerCase();
+  if(!registryAddr()) return;   // 合约未部署：一律不显示
+  var cacheKey='osk_refok_'+ref;
+  try{ var c=window.sessionStorage.getItem(cacheKey); if(c==='1'){ showRef(ref); return; } if(c==='0'){ return; } }catch(e){}
+  isPaidOnChain(ref).then(function(ok){
+    try{ window.sessionStorage.setItem(cacheKey, ok?'1':'0'); }catch(e){}
+    if(ok) showRef(ref);
+  });
+}
+/* 管理员部署验证合约（?admin=1 显示入口） */
+function initAdmin(){
+  var isAdmin=false;
+  try{ isAdmin=new URLSearchParams(location.search).get('admin')==='1'; }catch(e){}
+  var box=$('adminBox');
+  if(!box) return;
+  box.style.display=isAdmin?'block':'none';
+  var st=$('regStatus');
+  if(isAdmin&&st){ st.textContent = registryAddr() ? '已配置合约：'+registryAddr() : '尚未部署验证合约。部署后，所有推荐链接的地址必须经链上付费验证才会显示。'; }
+}
+function saveRegistry(a){
+  try{ window.localStorage.setItem('osk_registry',a); }catch(e){}
+  var st=$('regStatus');
+  if(st) st.textContent='部署成功！合约地址：'+a+'（请把该地址发给开发者写死进页面，供所有访客验证）';
+  toast('部署成功！合约地址：'+a,true);
+}
+function deployRegistry(){
+  ensureWallet().then(function(w){
+    if(!w) return;
+    var data=REG_BYTECODE+padAddr64(REG_OWNER);
+    toast('请在钱包中确认部署交易…',true);
+    w.req('eth_sendTransaction',[{from:w.addr,data:data}]).then(function(hash){
+      toast('部署交易已发出，等待上链确认…',true);
+      var tries=0;
+      function poll(){
+        w.req('eth_getTransactionReceipt',[hash]).then(function(rec){
+          if(rec&&rec.contractAddress){ saveRegistry(rec.contractAddress); return; }
+          if(tries++>12){ toast('未能获取部署结果，请稍后重试或联系开发者',false); return; }
+          setTimeout(poll,5000);
+        }).catch(function(){
+          if(tries++>12){ toast('未能获取部署结果，请稍后重试或联系开发者',false); return; }
+          setTimeout(poll,5000);
+        });
+      }
+      poll();
+    }).catch(function(e){ toast('部署失败：'+(e&&e.message?e.message:'用户取消'),false); });
+  });
 }
 /* 顶栏「推广页链接」复制 —— 仅支付绑定完成后可生成 */
 function copyShare(){
@@ -1640,6 +1733,8 @@ function bindEvents(){
   if(login) login.addEventListener('click',doLoginBind);
   var relogin=$('btnRelogin');
   if(relogin) relogin.addEventListener('click',doLoginBind);
+  var dep=$('btnDeployReg');
+  if(dep) dep.addEventListener('click',deployRegistry);
   var b;
   b=$('btnCopyShareLeft');      if(b) b.addEventListener('click',copyShare);
   b=$('btnCopyShareDesktop');   if(b) b.addEventListener('click',copyShare);
@@ -1665,6 +1760,7 @@ initRef();
 renderMe();
 bindEvents();
 checkCurrentAccount();
+initAdmin();
 })();
 </script>
 
