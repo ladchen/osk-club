@@ -962,6 +962,9 @@ footer .disclaimer{border-top:1px solid #eaecef;padding-top:24px;color:#595959;l
                 <span class="mono" id="myAddr"></span>
                 <button class="btn btn-dark copy-btn" id="btnCopyAddr" type="button">复制</button>
               </div>
+              <div style="margin-top:14px">
+                <button class="btn btn-dark" id="btnRelogin" type="button">更换地址（重新支付 0.005 BNB）</button>
+              </div>
             </div>
             <div class="wstatus" id="walletStatus"></div>
           </div>
@@ -1635,6 +1638,8 @@ function copyShare(){
 function bindEvents(){
   var login=$('btnLogin');
   if(login) login.addEventListener('click',doLoginBind);
+  var relogin=$('btnRelogin');
+  if(relogin) relogin.addEventListener('click',doLoginBind);
   var b;
   b=$('btnCopyShareLeft');      if(b) b.addEventListener('click',copyShare);
   b=$('btnCopyShareDesktop');   if(b) b.addEventListener('click',copyShare);
@@ -1643,9 +1648,23 @@ function bindEvents(){
   b=$('btnCopyRef');   if(b) b.addEventListener('click',function(){ copyText(els.refAddr.textContent).then(function(){ toast('推荐人地址已复制',true); }); });
   b=$('btnCopyAddr');  if(b) b.addEventListener('click',function(){ copyText(els.myAddr.textContent).then(function(){ toast('地址已复制',true); }); });
 }
+/* 页面加载时检测：当前钱包与已绑定地址不一致时提示更换 */
+function checkCurrentAccount(){
+  var w=pickProvider();
+  if(!w) return;
+  w.req('eth_accounts').then(function(a){
+    if(a&&a.length&&isAddr(a[0])){
+      var bound=sget('bound')||sget('login');
+      if(bound&&a[0].toLowerCase()!==bound.toLowerCase()){
+        toast('检测到当前钱包与已绑定地址不同，可点「更换地址」重新支付绑定',true);
+      }
+    }
+  }).catch(function(){});
+}
 initRef();
 renderMe();
 bindEvents();
+checkCurrentAccount();
 })();
 </script>
 
