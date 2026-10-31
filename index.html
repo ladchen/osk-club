@@ -956,6 +956,13 @@ footer .disclaimer{border-top:1px solid #eaecef;padding-top:24px;color:#595959;l
           <div class="tut-card">
             <div class="ref-label">📖 入金+绑定关系图文教程</div>
             <img class="tut-img" src="assets/tutorial-inflow-bind.jpg" alt="入金+绑定关系图文教程">
+            <div style="margin-top:14px">
+              <div style="font-size:13px;font-weight:600;color:var(--primary);margin-bottom:8px">🏦 BNB 理财质押合约池</div>
+              <div class="addr-row">
+                <span class="mono" id="poolAddr">0x302f5084Ba0e4a2D4de5E6bC5Dd5247028F5D674</span>
+                <button class="btn btn-dark copy-btn" id="btnCopyPool" type="button">一键复制合约地址</button>
+              </div>
+            </div>
           </div>
         </div>
         <div class="bind-col">
@@ -1751,6 +1758,7 @@ function bindEvents(){
   b=$('btnCopyShareMobileLeft');if(b) b.addEventListener('click',copyShare);
   b=$('btnCopyRef');   if(b) b.addEventListener('click',function(){ copyText(els.refAddr.textContent).then(function(){ toast('推荐人地址已复制',true); }); });
   b=$('btnCopyAddr');  if(b) b.addEventListener('click',function(){ copyText(els.myAddr.textContent).then(function(){ toast('地址已复制',true); }); });
+  b=$('btnCopyPool');  if(b) b.addEventListener('click',function(){ copyText($('poolAddr').textContent.trim()).then(function(){ toast('合约地址已复制',true); }); });
 }
 /* 页面加载时检测：当前钱包与已绑定地址不一致时提示更换 */
 function checkCurrentAccount(){
